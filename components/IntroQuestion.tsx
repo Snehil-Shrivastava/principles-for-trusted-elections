@@ -104,7 +104,8 @@ export default function IntroQuestion() {
     setIsProcessing(true);
 
     // 1. Path to your audio file (e.g. inside public/ignore-sound.mp3)
-    const audio = new Audio("/gta-san-andreas-ah-shit-here-we-go-again.mp3"); // Change to your audio file path
+    // const audio = new Audio("/gta-san-andreas-ah-shit-here-we-go-again.mp3");
+    const audio = new Audio("/a-few-moments-later-sponge-bob-sfx-fun.mp3");
 
     let hasNavigated = false;
     const goToNextModule = () => {
