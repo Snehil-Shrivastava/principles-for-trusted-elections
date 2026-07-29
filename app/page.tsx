@@ -4,7 +4,7 @@ import IntroAnimation from "@/components/IntroAnimation";
 
 export default function Home() {
   return (
-    <div className="max-w-97.5 w-full min-h-screen mb-20 bg-white text-black flex flex-col gap-y-5 font-ubuntu">
+    <div className="w-full min-h-screen mb-20 bg-white text-black flex flex-col gap-y-5 font-ubuntu">
       <div className="w-full py-5">
         <Image src={trustedElectionsLogo} alt="" className="mx-auto" />
       </div>

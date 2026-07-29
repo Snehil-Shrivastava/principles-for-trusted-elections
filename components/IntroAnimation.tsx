@@ -898,7 +898,8 @@ function extractTargetCoords(
   const bgR = pixels[0];
   const bgG = pixels[1];
   const bgB = pixels[2];
-  const bgLuminance = 0.299 * bgR + 0.587 * bgG + 0.114 * bgB;
+  //   const bgLuminance = 0.299 * bgR + 0.587 * bgG + 0.114 * bgB;
+  const bgLuminance = 0.5 * bgR + 0.587 * bgG + 0.5 * bgB;
 
   for (let y = 0; y < H; y += SAMPLE_STEP) {
     for (let x = 0; x < W; x += SAMPLE_STEP) {
@@ -1073,7 +1074,7 @@ function ParticlesMesh({
     shaderMat.uniforms.uDotMode.value = animRef.current.uDotMode.value;
     shaderMat.uniforms.uMaskScale.value = animRef.current.uMaskScale.value;
 
-    const containerScale = Math.max(0.35, state.size.height / 1200.0);
+    const containerScale = Math.max(0.35, state.size.height / 800.0);
     shaderMat.uniforms.uScale.value = containerScale;
   });
 
