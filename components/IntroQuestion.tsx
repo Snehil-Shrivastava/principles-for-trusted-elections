@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 
@@ -14,6 +14,9 @@ export default function IntroQuestion() {
   const newspaperRef = useRef<HTMLDivElement>(null);
   const bubbleRef = useRef<HTMLDivElement>(null);
   const buttonsRef = useRef<HTMLDivElement>(null);
+
+  // Prevent double-clicking while audio plays
+  const [isProcessing, setIsProcessing] = useState(false);
 
   useEffect(() => {
     let floatTween: gsap.core.Tween | null = null;
@@ -40,18 +43,6 @@ export default function IntroQuestion() {
     // 2. Build Sequence Timeline
     const tl = gsap.timeline({
       delay: 0.2, // Short breather after screen transition
-      //   onComplete: () => {
-      //     // Start continuous floating loop once entrance sequence completes
-      //     if (bubbleRef.current) {
-      //       floatTween = gsap.to(bubbleRef.current, {
-      //         y: -10, // Floats 10px up from resting position
-      //         duration: 1.6, // Duration of one direction (up or down)
-      //         ease: "sine.inOut", // Smooth organic ease
-      //         repeat: -1, // Infinite loop
-      //         yoyo: true, // Go back and forth (up and down)
-      //       });
-      //     }
-      //   },
     });
 
     tl
@@ -108,6 +99,37 @@ export default function IntroQuestion() {
     router.push("/module-1");
   };
 
+  const handleIgnore = () => {
+    if (isProcessing) return;
+    setIsProcessing(true);
+
+    // 1. Path to your audio file (e.g. inside public/ignore-sound.mp3)
+    const audio = new Audio("/gta-san-andreas-ah-shit-here-we-go-again.mp3"); // Change to your audio file path
+
+    let hasNavigated = false;
+    const goToNextModule = () => {
+      if (!hasNavigated) {
+        hasNavigated = true;
+        router.push("/module-1");
+      }
+    };
+
+    // 2. When audio finishes playing -> navigate
+    audio.onended = goToNextModule;
+
+    // 3. Fallback: If audio fails to load -> navigate anyway
+    audio.onerror = goToNextModule;
+
+    // 4. Safety Timeout: Max 6s wait in case audio stalls
+    setTimeout(goToNextModule, 6000);
+
+    // 5. Play audio
+    audio.play().catch((err) => {
+      console.warn("Audio playback blocked or failed:", err);
+      goToNextModule();
+    });
+  };
+
   return (
     <div
       ref={containerRef}
@@ -136,14 +158,16 @@ export default function IntroQuestion() {
       {/* --- ACTION BUTTONS AREA --- */}
       <div ref={buttonsRef} className="w-full flex justify-between gap-x-3">
         <button
-          //   onClick={onIgnore}
-          className="bg-[#D9394F] hover:opacity-90 active:scale-95 text-white py-3 px-8 rounded-xs text-base tracking-widest uppercase transition-all shadow-md cursor-pointer"
+          onClick={handleIgnore}
+          disabled={isProcessing}
+          className="bg-[#D9394F] hover:opacity-90 active:scale-95 text-white py-3 px-8 rounded-xs text-base tracking-widest uppercase transition-all shadow-md cursor-pointer disabled:opacity-50"
         >
           IGNORE IT
         </button>
         <button
           onClick={handleOpen}
-          className="bg-[#222F5F] hover:opacity-90 active:scale-95 text-white py-3 px-8 rounded-xs text-base tracking-widest uppercase transition-all shadow-md cursor-pointer"
+          disabled={isProcessing}
+          className="bg-[#222F5F] hover:opacity-90 active:scale-95 text-white py-3 px-8 rounded-xs text-base tracking-widest uppercase transition-all shadow-md cursor-pointer disabled:opacity-50"
         >
           OPEN IT
         </button>
