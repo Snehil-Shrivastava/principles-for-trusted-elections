@@ -380,6 +380,7 @@ const Module1 = () => {
             return (
               <div
                 ref={(el) => {
+                  // @ts-expect-error random
                   optionRefs.current[index] = el;
                 }}
                 key={option.id}
