@@ -1,0 +1,43 @@
+"use client";
+
+import { usePathname } from "next/navigation";
+
+// Define banner title/subtitle for each route here
+const bannerContent: Record<string, { title: string; subtitle?: string }> = {
+  "/": {
+    title: "Introduction",
+    subtitle: "The Improbable Thing",
+  },
+  "/module-1": {
+    title: "Honest Process (The Foundation)",
+    // subtitle: "Understanding Absentee Ballots",
+  },
+  // Add more modules easily in the future:
+  // "/module-2": {
+  //   title: "Module 2",
+  //   subtitle: "Voter Registration",
+  // },
+};
+
+export default function Banner() {
+  const pathname = usePathname();
+
+  // Get current content based on path, or fallback to default
+  const content = bannerContent[pathname] || {
+    title: "Introduction",
+    subtitle: "The Improbable Thing",
+  };
+
+  return (
+    <div className="bg-brand-pink text-white text-center py-3">
+      <h1
+        className={`font-bold ${pathname === "/module-1" ? "text-xl" : "text-2xl"}`}
+      >
+        {content.title}
+      </h1>
+      {content.subtitle && (
+        <span className="font-light">{content.subtitle}</span>
+      )}
+    </div>
+  );
+}
