@@ -1,8 +1,7 @@
 import Image from "next/image";
 import trustedElectionsLogo from "@/public/principles for trusted elections logo.svg";
-import IntroAnimation from "@/components/IntroAnimation";
 
-export default function Home() {
+const MainLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="w-full min-h-screen mb-20 bg-white text-black flex flex-col gap-y-5 font-ubuntu">
       <div className="w-full py-5">
@@ -12,9 +11,9 @@ export default function Home() {
         <h1 className="font-bold text-2xl">Introduction</h1>
         <span className="font-light">The Improbable Thing</span>
       </div>
-      <div className="h-4/5 max-h-120 w-9/10 mx-auto flex-1">
-        <IntroAnimation />
-      </div>
+      <div className="h-4/5 max-h-120 w-9/10 mx-auto flex-1">{children}</div>
     </div>
   );
-}
+};
+
+export default MainLayout;
