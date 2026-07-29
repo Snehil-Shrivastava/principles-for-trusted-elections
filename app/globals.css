@@ -5,6 +5,7 @@
   --foreground: #171717;
   --brand-pink: #e36b7b;
   --brand-blue: #222f5f;
+  --brand-red: #eb102d;
 }
 
 @theme inline {
@@ -15,6 +16,7 @@
   --font-ubuntu: var(--font-ubuntu);
   --color-brand-pink: var(--brand-pink);
   --color-brand-blue: var(--brand-blue);
+  --color-brand-red: var(--brand-red);
 }
 
 @media (prefers-color-scheme: dark) {

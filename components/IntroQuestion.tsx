@@ -7,6 +7,9 @@ import gsap from "gsap";
 import newspaperSrc from "@/public/newspaper-headline.png";
 import speechBubble from "@/public/speech-bubble.svg";
 import { useRouter } from "next/navigation";
+import { useGSAP } from "@gsap/react";
+
+gsap.registerPlugin(useGSAP);
 
 export default function IntroQuestion() {
   const router = useRouter();
@@ -21,12 +24,16 @@ export default function IntroQuestion() {
   //   useEffect(() => {
   //     let floatTween: gsap.core.Tween | null = null;
 
-  //     // 1. Hide all elements initially before animating
+  //     // Initial states
   //     gsap.set(newspaperRef.current, {
-  //       scale: 0,
-  //       rotation: -360,
+  //       scale: 0.08,
+  //       rotation: -1080,
+  //       rotationX: 55,
+  //       rotationY: -20,
   //       opacity: 0,
+  //       transformPerspective: 1200,
   //       transformOrigin: "center center",
+  //       force3D: true,
   //     });
 
   //     gsap.set(bubbleRef.current, {
@@ -40,44 +47,60 @@ export default function IntroQuestion() {
   //       y: 25,
   //     });
 
-  //     // 2. Build Sequence Timeline
   //     const tl = gsap.timeline({
-  //       delay: 0.2, // Short breather after screen transition
+  //       delay: 0.2,
   //     });
 
   //     tl
-  //       // Step A: Newspaper scales and rotates up into place
+  //       // Newspaper flies in
   //       .to(newspaperRef.current, {
-  //         scale: 1,
-  //         rotation: 0,
+  //         scale: 1.12,
+  //         rotation: 20,
+  //         rotationX: -8,
+  //         rotationY: 3,
   //         opacity: 1,
-  //         duration: 2,
-  //         ease: "back.out(1.2)",
+  //         duration: 1.8,
+  //         ease: "expo.out",
   //       })
-  //       // Step B: "Did you see this?" speech bubble pops in
+
+  //       // Settle into final position
+  //       .to(
+  //         newspaperRef.current,
+  //         {
+  //           scale: 1,
+  //           rotation: 0,
+  //           rotationX: 0,
+  //           rotationY: 0,
+  //           duration: 0.45,
+  //           ease: "back.out(2)",
+  //         },
+  //         ">",
+  //       )
+
+  //       // Bubble appears just before newspaper fully settles
   //       .to(
   //         bubbleRef.current,
   //         {
   //           scale: 1,
   //           opacity: 1,
-  //           duration: 1,
+  //           duration: 0.8,
   //           ease: "back.out(1.7)",
   //           onComplete: () => {
-  //             // Start floating up & down IMMEDIATELY as soon as bubble finishes popping in
   //             if (bubbleRef.current) {
   //               floatTween = gsap.to(bubbleRef.current, {
-  //                 y: -10, // Floats 10px up from resting position
+  //                 y: -10,
   //                 duration: 1.6,
   //                 ease: "sine.inOut",
-  //                 repeat: -1, // Infinite loop
-  //                 yoyo: true, // Go back and forth
+  //                 repeat: -1,
+  //                 yoyo: true,
   //               });
   //             }
   //           },
   //         },
-  //         "-=0.2", // Overlap slightly with newspaper settling
+  //         "-=0.15",
   //       )
-  //       // Step C: Action buttons slide and fade up from bottom
+
+  //       // Buttons fade up
   //       .to(
   //         buttonsRef.current,
   //         {
@@ -91,106 +114,101 @@ export default function IntroQuestion() {
 
   //     return () => {
   //       tl.kill();
-  //       if (floatTween) floatTween.kill();
+  //       floatTween?.kill();
   //     };
   //   }, []);
 
-  useEffect(() => {
-    let floatTween: gsap.core.Tween | null = null;
+  useGSAP(
+    () => {
+      // Initial states
+      gsap.set(newspaperRef.current, {
+        scale: 0.08,
+        rotation: -1080,
+        rotationX: 55,
+        rotationY: -20,
+        opacity: 0,
+        transformPerspective: 1200,
+        transformOrigin: "center center",
+        force3D: true,
+      });
 
-    // Initial states
-    gsap.set(newspaperRef.current, {
-      scale: 0.08,
-      rotation: -1080,
-      rotationX: 55,
-      rotationY: -20,
-      opacity: 0,
-      transformPerspective: 1200,
-      transformOrigin: "center center",
-      force3D: true,
-    });
+      gsap.set(bubbleRef.current, {
+        scale: 0,
+        opacity: 0,
+        transformOrigin: "bottom left",
+      });
 
-    gsap.set(bubbleRef.current, {
-      scale: 0,
-      opacity: 0,
-      transformOrigin: "bottom left",
-    });
+      gsap.set(buttonsRef.current, {
+        opacity: 0,
+        y: 25,
+      });
 
-    gsap.set(buttonsRef.current, {
-      opacity: 0,
-      y: 25,
-    });
+      const tl = gsap.timeline({
+        delay: 0.2,
+        defaults: {
+          overwrite: "auto",
+        },
+      });
 
-    const tl = gsap.timeline({
-      delay: 0.2,
-    });
+      tl
+        // Newspaper flies toward the viewer
+        .to(newspaperRef.current, {
+          scale: 1.12,
+          rotation: 20,
+          rotationX: -8,
+          rotationY: 3,
+          opacity: 1,
+          duration: 1.1,
+          ease: "expo.out",
+        })
 
-    tl
-      // Newspaper flies in
-      .to(newspaperRef.current, {
-        scale: 1.12,
-        rotation: 20,
-        rotationX: -8,
-        rotationY: 3,
-        opacity: 1,
-        duration: 1.8,
-        ease: "expo.out",
-      })
-
-      // Settle into final position
-      .to(
-        newspaperRef.current,
-        {
+        // Settle into place
+        .to(newspaperRef.current, {
           scale: 1,
           rotation: 0,
           rotationX: 0,
           rotationY: 0,
           duration: 0.45,
           ease: "back.out(2)",
-        },
-        ">",
-      )
+        })
 
-      // Bubble appears just before newspaper fully settles
-      .to(
-        bubbleRef.current,
-        {
-          scale: 1,
-          opacity: 1,
-          duration: 0.8,
-          ease: "back.out(1.7)",
-          onComplete: () => {
-            if (bubbleRef.current) {
-              floatTween = gsap.to(bubbleRef.current, {
+        // Speech bubble
+        .to(
+          bubbleRef.current,
+          {
+            scale: 1,
+            opacity: 1,
+            duration: 0.8,
+            ease: "back.out(1.7)",
+            onComplete: () => {
+              gsap.to(bubbleRef.current, {
                 y: -10,
                 duration: 1.6,
                 ease: "sine.inOut",
                 repeat: -1,
                 yoyo: true,
               });
-            }
+            },
           },
-        },
-        "-=0.15",
-      )
+          "-=0.15",
+        )
 
-      // Buttons fade up
-      .to(
-        buttonsRef.current,
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: "power2.out",
-        },
-        "+=0.1",
-      );
-
-    return () => {
-      tl.kill();
-      floatTween?.kill();
-    };
-  }, []);
+        // Buttons
+        .to(
+          buttonsRef.current,
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "power2.out",
+          },
+          "+=0.1",
+        );
+    },
+    {
+      scope: containerRef,
+    },
+  );
 
   const handleOpen = () => {
     router.push("/module-1");

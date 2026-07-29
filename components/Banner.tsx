@@ -10,13 +10,7 @@ const bannerContent: Record<string, { title: string; subtitle?: string }> = {
   },
   "/module-1": {
     title: "Honest Process (The Foundation)",
-    // subtitle: "Understanding Absentee Ballots",
   },
-  // Add more modules easily in the future:
-  // "/module-2": {
-  //   title: "Module 2",
-  //   subtitle: "Voter Registration",
-  // },
 };
 
 export default function Banner() {
