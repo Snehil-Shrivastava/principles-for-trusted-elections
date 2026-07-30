@@ -692,25 +692,27 @@ export default function BuildingSVG({
     () => {
       if (!svgRef.current) return;
 
-      // 1. Target elements by class
+      // 1. Foundation elements
       const foundationEls = svgRef.current.querySelectorAll(
         '[class*="foundation"]',
       );
+
+      // 2. Beam elements
       const beamEls = svgRef.current.querySelectorAll('[class*="beam"]');
+
+      // 3. Lock elements
       const lockEls = svgRef.current.querySelectorAll('[class*="lock"]');
 
-      // Door: selects both <g className="door-container"> AND <path className="door">
-      // (excluding elements containing "lock" or "window")
+      // 4. Door group: Includes .door, .door-container, .door-window, .door-window-vertical-line,
+      // and .door-window-semicircle (Excludes ONLY .door-lock)
       const allDoorEls = Array.from(
         svgRef.current.querySelectorAll<SVGElement>('[class*="door"]'),
       );
       const doorEls = allDoorEls.filter(
-        (el) =>
-          !el.classList.value.includes("lock") &&
-          !el.classList.value.includes("window"),
+        (el) => !el.classList.value.includes("lock"),
       );
 
-      // Window: selects all window elements (excluding elements containing "door")
+      // 5. Window group: Includes all main windows (Excludes door-window elements)
       const allWindowEls = Array.from(
         svgRef.current.querySelectorAll<SVGElement>('[class*="window"]'),
       );
@@ -718,7 +720,7 @@ export default function BuildingSVG({
         (el) => !el.classList.value.includes("door"),
       );
 
-      // 2. Initial State: fill transparent & visible white stroke
+      // Initial State: fill transparent & visible white stroke
       const animatedEls = [
         ...Array.from(foundationEls),
         ...doorEls,
@@ -729,10 +731,12 @@ export default function BuildingSVG({
 
       gsap.set(animatedEls, { fill: "transparent", stroke: "#ffffff" });
 
-      // 3. GSAP Animation Sequence Timeline
+      // GSAP Animation Sequence Timeline
       const tl = gsap.timeline({
         onComplete: () => {
-          onComplete?.();
+          gsap.delayedCall(3, () => {
+            onComplete?.();
+          });
         },
       });
 
@@ -741,12 +745,11 @@ export default function BuildingSVG({
         .to(foundationEls, { fill: "#ffffff", duration: 0.4 }, "+=2.0")
         .to(foundationEls, { fill: "transparent", duration: 0.4 }, "+=2.0")
 
-        // STEP 2: Door (includes <g className="door-container"> AND <path className="door">)
-        // (fill #fff for 3s, then switch back to transparent)
+        // STEP 2: Door + Door Window elements (fill #fff for 3s, then switch back to transparent)
         .to(doorEls, { fill: "#ffffff", duration: 0.4 })
         .to(doorEls, { fill: "transparent", duration: 0.4 }, "+=3.0")
 
-        // STEP 3: Window (fill #fff for 2.5s, then switch back to transparent)
+        // STEP 3: Main Windows (fill #fff for 2.5s, then switch back to transparent)
         .to(windowEls, { fill: "#ffffff", duration: 0.4 })
         .to(windowEls, { fill: "transparent", duration: 0.4 }, "+=2.5")
 

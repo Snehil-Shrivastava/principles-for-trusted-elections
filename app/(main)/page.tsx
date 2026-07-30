@@ -18,6 +18,14 @@ const Main = () => {
       setIsFading(false);
     }, 500); // Smooth 500ms cross-fade transition
   };
+
+  const handleBlueprintComplete = () => {
+    setIsFading(true);
+    setTimeout(() => {
+      setScreen("newspaper");
+      setIsFading(false);
+    }, 500); // 500ms cross-fade to newspaper
+  };
   return (
     <div
       className={`w-full h-156.5 transition-opacity duration-500 ${
@@ -27,16 +35,7 @@ const Main = () => {
       {screen === "intro" ? (
         <IntroAnimation onComplete={handleIntroComplete} />
       ) : screen === "blueprint" ? (
-        <ArtboardAnimation
-        // onComplete={() => {
-        //   // Automatically transition to IntroQuestion when Artboard 11 finishes!
-        //   setIsFading(true);
-        //   setTimeout(() => {
-        //     setScreen("newspaper");
-        //     setIsFading(false);
-        //   }, 500);
-        // }}
-        />
+        <ArtboardAnimation onComplete={handleBlueprintComplete} />
       ) : (
         <IntroQuestion />
       )}
