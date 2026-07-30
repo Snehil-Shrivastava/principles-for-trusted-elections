@@ -68,7 +68,6 @@ const SAMPLE_STEP = 1;
 const EXPAND_SCALE = 6.5;
 
 const DEFAULT_CROWD_SVG = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 1000" width="600" height="1000"><rect width="600" height="1000" fill="%23131b3e"/><circle cx="300" cy="120" r="3" fill="%23fff"/><circle cx="150" cy="80" r="2" fill="%23fff"/><circle cx="450" cy="180" r="2.5" fill="%23fff"/><circle cx="90" cy="220" r="2" fill="%23fff"/><circle cx="520" cy="100" r="3" fill="%23fff"/><circle cx="300" cy="820" r="50" stroke="%23fff" stroke-width="4" fill="none"/><path d="M 170 980 Q 200 880 250 880 L 350 880 Q 400 880 430 980" stroke="%23fff" stroke-width="4" fill="none"/><path d="M 250 880 L 300 930 L 350 880 M 300 930 L 300 1000" stroke="%23fff" stroke-width="3" fill="none"/></svg>`;
-const DEFAULT_VOTE_SVG = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 1000" width="600" height="1000"><rect width="600" height="1000" fill="%23131b3e"/><circle cx="300" cy="300" r="70" stroke="%23fff" stroke-width="4" fill="none"/><path d="M 180 500 Q 300 450 420 500 L 450 950 L 150 950 Z" stroke="%23fff" stroke-width="4" fill="none"/></svg>`;
 
 function createMapMaskTexture(): THREE.CanvasTexture {
   const canvas = document.createElement("canvas");
@@ -483,8 +482,8 @@ function ParticlesMesh({
 }
 
 export default function IntroAnimation({
-  crowdImageSrc = "/crowd.png",
-  voteImageSrc = "/vote.png",
+  crowdImageSrc = "/crowd-v2.png",
+  voteImageSrc = "/vote-v2.png",
   className = "",
   onComplete,
 }: {

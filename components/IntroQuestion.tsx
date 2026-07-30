@@ -275,7 +275,7 @@ export default function IntroQuestion() {
       </div>
 
       {/* --- ACTION BUTTONS AREA --- */}
-      <div ref={buttonsRef} className="w-full flex justify-between gap-x-3">
+      <div ref={buttonsRef} className="w-full flex justify-around gap-x-3">
         <button
           onClick={handleIgnore}
           disabled={isProcessing}
