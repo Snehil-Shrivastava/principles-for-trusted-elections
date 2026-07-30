@@ -1257,7 +1257,7 @@ export default function IntroAnimation({
       ref={containerRef}
       className={`relative w-full h-full min-h-0 bg-[#222f5f] overflow-hidden flex items-center justify-center ${className}`}
     >
-      <div className="relative w-full h-full max-w-full max-h-full aspect-[480/800] flex items-center justify-center overflow-hidden">
+      <div className="relative w-full h-full max-w-full max-h-full aspect-480/800 flex items-center justify-center overflow-hidden">
         {/* THREE.JS CANVAS */}
         <div className="absolute inset-0 z-0">
           <Canvas
