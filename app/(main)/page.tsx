@@ -28,14 +28,14 @@ const Main = () => {
         <IntroAnimation onComplete={handleIntroComplete} />
       ) : screen === "blueprint" ? (
         <ArtboardAnimation
-          onComplete={() => {
-            // Automatically transition to IntroQuestion when Artboard 11 finishes!
-            setIsFading(true);
-            setTimeout(() => {
-              setScreen("newspaper");
-              setIsFading(false);
-            }, 500);
-          }}
+        // onComplete={() => {
+        //   // Automatically transition to IntroQuestion when Artboard 11 finishes!
+        //   setIsFading(true);
+        //   setTimeout(() => {
+        //     setScreen("newspaper");
+        //     setIsFading(false);
+        //   }, 500);
+        // }}
         />
       ) : (
         <IntroQuestion />

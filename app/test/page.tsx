@@ -2,8 +2,8 @@
 
 // const TestPage = () => {
 //   return (
-//     <div className="w-full h-full">
-//       <div className="w-full h-full">
+//     <div classNameName="w-full h-full">
+//       <div classNameName="w-full h-full">
 //         <TestIntroAnimation />
 //       </div>
 //     </div>
@@ -25,7 +25,7 @@ export default function TestPage() {
   const [introFinished, setIntroFinished] = useState(false);
 
   return (
-    <div className="relative w-full h-[685px] bg-brand-blue overflow-hidden">
+    <div className="relative w-full h-171.25 bg-brand-blue overflow-hidden">
       {/* 1. STAGE 2: Module0Animation (Fades in during cross-fade) */}
       <div
         className={`absolute inset-0 transition-opacity duration-1000 ${
