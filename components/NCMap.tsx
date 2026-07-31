@@ -60,7 +60,7 @@ const NCMap = () => {
     { scope: containerRef },
   );
   return (
-    <div ref={containerRef} className="w-full h-full">
+    <div ref={containerRef} className="w-full h-full bg-transparent">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         xmlnsXlink="http://www.w3.org/1999/xlink"
@@ -72,7 +72,7 @@ const NCMap = () => {
           <style>
             {`
       .cls-1 {
-        opacity: .75;
+        // opacity: .75;
       }
 
     //   .cls-2.ncmap {
@@ -96,7 +96,7 @@ const NCMap = () => {
       }
 
       .cls-8 {
-        fill: #222f5f;
+        // fill: #222f5f;
       }
 
       .cls-9 {
@@ -236,22 +236,10 @@ const NCMap = () => {
           />
         </g>
         <g className="opacity-0 map-text">
-          <text
-            x="600"
-            y="1000"
-            fill="white"
-            fontSize="36"
-            fontWeight="semibold"
-          >
+          <text x="600" y="1000" fill="white" fontSize="36" fontWeight="500">
             Bladen County,
           </text>
-          <text
-            x="600"
-            y="1045"
-            fill="white"
-            fontSize="36"
-            fontWeight="semibold"
-          >
+          <text x="600" y="1045" fill="white" fontSize="36" fontWeight="500">
             North Carolina.
           </text>
         </g>
