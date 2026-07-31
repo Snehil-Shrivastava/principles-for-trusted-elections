@@ -28,6 +28,7 @@ const Module1Text = ({ className }: { className?: string }) => {
         const state = Flip.getState(".text-group");
 
         // Add class to container to shift CSS target positions to 2-line layout
+        // @ts-expect-error random error
         svgContainerRef.current?.classList.add("layout-2lines");
 
         // Animate seamlessly from 5-line to 2-line layout
