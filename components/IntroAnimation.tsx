@@ -69,19 +69,20 @@ const STICKER_PATHS = [
 
 // const DEFAULT_CROWD_SVG = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 1000" width="600" height="1000"><rect width="600" height="1000" fill="%23131b3e"/><circle cx="300" cy="120" r="3" fill="%23fff"/><circle cx="150" cy="80" r="2" fill="%23fff"/><circle cx="450" cy="180" r="2.5" fill="%23fff"/><circle cx="90" cy="220" r="2" fill="%23fff"/><circle cx="520" cy="100" r="3" fill="%23fff"/><circle cx="300" cy="820" r="50" stroke="%23fff" stroke-width="4" fill="none"/><path d="M 170 980 Q 200 880 250 880 L 350 880 Q 400 880 430 980" stroke="%23fff" stroke-width="4" fill="none"/><path d="M 250 880 L 300 930 L 350 880 M 300 930 L 300 1000" stroke="%23fff" stroke-width="3" fill="none"/></svg>`;
 
+// // High-Precision 2048x2048 Canvas Texture for zero border bleeding
 // function createMapMaskTexture(): THREE.CanvasTexture {
 //   const canvas = document.createElement("canvas");
-//   canvas.width = 1024;
-//   canvas.height = 1024;
+//   canvas.width = 2048; // Quadrupled resolution for crisp edges
+//   canvas.height = 2048;
 //   const ctx = canvas.getContext("2d");
 
 //   if (ctx) {
 //     ctx.fillStyle = "black";
-//     ctx.fillRect(0, 0, 1024, 1024);
+//     ctx.fillRect(0, 0, 2048, 2048);
 
 //     ctx.fillStyle = "white";
 //     ctx.save();
-//     ctx.scale(1024 / 2300, 1024 / 4500);
+//     ctx.scale(2048 / 2300, 2048 / 4500);
 //     ctx.translate(0, 1100);
 
 //     const mainland = new Path2D(USA_MAINLAND_PATH);
@@ -97,13 +98,13 @@ const STICKER_PATHS = [
 //   }
 
 //   const texture = new THREE.CanvasTexture(canvas);
+//   texture.minFilter = THREE.LinearFilter;
+//   texture.magFilter = THREE.LinearFilter;
+//   texture.generateMipmaps = false;
 //   texture.needsUpdate = true;
 //   return texture;
 // }
 
-// /**
-//  * Mobile-Safe Image Loader (Handles relative domain URLs without forcing CORS)
-//  */
 // function loadImage(src: string): Promise<HTMLImageElement> {
 //   return new Promise((resolve) => {
 //     const img = new Image();
@@ -143,7 +144,6 @@ const STICKER_PATHS = [
 //   const bgR = pixels[0];
 //   const bgG = pixels[1];
 //   const bgB = pixels[2];
-//   //   const bgLuminance = 0.299 * bgR + 0.587 * bgG + 0.114 * bgB;
 //   const bgLuminance = 0.5 * bgR + 0.587 * bgG + 0.5 * bgB;
 
 //   for (let y = 0; y < H; y += SAMPLE_STEP) {
@@ -155,17 +155,6 @@ const STICKER_PATHS = [
 //       const a = pixels[idx + 3];
 
 //       const luminance = 0.299 * r + 0.587 * g + 0.114 * b;
-
-//       // Mask out interior of Ballot paper & Sticker area so vector SVG overlays take over cleanly
-//       // if (isVoteImage) {
-//       //   const normX = x / W;
-//       //   const normY = y / H;
-
-//       //   const isOverlayRegion =
-//       //     normX >= 0.415 && normX <= 0.635 && normY >= 0.48 && normY <= 0.6;
-
-//       //   if (isOverlayRegion) continue;
-//       // }
 
 //       if (a > 30 && luminance > Math.max(bgLuminance + 25, 75)) {
 //         coords.push({ x, y, brightness: luminance });
@@ -239,6 +228,7 @@ const STICKER_PATHS = [
 
 //     delays[i] = Math.random() * 1.5;
 
+//     // Types: 0 = Circle, 1 = Horseshoe Arc, 2 = Ring Arc, 3 = Pill/Rect
 //     types[i] = Math.floor(Math.random() * 4);
 //     rotations[i] = Math.random() * Math.PI * 2;
 //   }
@@ -439,12 +429,23 @@ const STICKER_PATHS = [
 //           varying float vAlpha;
 
 //           void main() {
+//             // 1. Calculate map mask texture UV
 //             vec2 maskUv = (vScreenUv - vec2(0.5)) / uMaskScale + vec2(0.5);
-//             float maskVal = texture2D(uMaskTexture, maskUv).r;
 
-//             if (maskVal < 0.1) {
+//             // Discard particles out of texture bounds
+//             if (maskUv.x < 0.0 || maskUv.x > 1.0 || maskUv.y < 0.0 || maskUv.y > 1.0) {
 //               discard;
 //             }
+
+//             float maskVal = texture2D(uMaskTexture, maskUv).r;
+
+//             // Discard outside mask
+//             if (maskVal < 0.15) {
+//               discard;
+//             }
+
+//             // Smoothly fade border particles so particle radius never spills outside
+//             float borderFade = smoothstep(0.15, 0.85, maskVal);
 
 //             vec2 coord = gl_PointCoord - vec2(0.5);
 //             float dist = length(coord);
@@ -452,28 +453,38 @@ const STICKER_PATHS = [
 
 //             float shapeAlpha = 1.0;
 
+//             // Render shapes when uDotMode < 0.99
 //             if (uDotMode < 0.99) {
 //               float angle = atan(coord.y, coord.x) + vRotation;
 
 //               if (vType < 0.5) {
-//                 shapeAlpha = smoothstep(0.5, 0.4, dist);
+//                 // Type 0: Solid Circle
+//                 shapeAlpha = smoothstep(0.5, 0.38, dist);
 //               } else if (vType < 1.5) {
+//                 // Type 1: Horseshoe Arc
 //                 float ring = smoothstep(0.5, 0.42, dist) - smoothstep(0.32, 0.24, dist);
 //                 float arc = step(0.0, sin(angle));
-//                 shapeAlpha = ring * mix(arc, 1.0, 0.3);
+//                 shapeAlpha = ring * mix(arc, 1.0, 0.25);
 //               } else if (vType < 2.5) {
-//                 float ring = smoothstep(0.5, 0.44, dist) - smoothstep(0.38, 0.32, dist);
-//                 float arc = step(-0.5, sin(angle * 1.5));
+//                 // Type 2: Crescent Ring Arc
+//                 float ring = smoothstep(0.5, 0.44, dist) - smoothstep(0.38, 0.30, dist);
+//                 float arc = step(-0.4, sin(angle * 1.5));
 //                 shapeAlpha = ring * arc;
 //               } else {
-//                 shapeAlpha = smoothstep(0.35, 0.2, dist);
+//                 // Type 3: Rotated Rounded Pill/Rect
+//                 vec2 rotCoord = vec2(
+//                   coord.x * cos(vRotation) - coord.y * sin(vRotation),
+//                   coord.x * sin(vRotation) + coord.y * cos(vRotation)
+//                 );
+//                 float rectDist = max(abs(rotCoord.x) - 0.12, abs(rotCoord.y) - 0.32);
+//                 shapeAlpha = smoothstep(0.08, 0.0, rectDist);
 //               }
 //             }
 
 //             float dotAlpha = smoothstep(0.5, 0.05, dist);
 //             float finalAlpha = mix(shapeAlpha, dotAlpha, uDotMode);
 
-//             gl_FragColor = vec4(1.0, 1.0, 1.0, finalAlpha * vAlpha);
+//             gl_FragColor = vec4(1.0, 1.0, 1.0, finalAlpha * vAlpha * borderFade);
 //           }
 //         `}
 //       />
@@ -506,7 +517,6 @@ const STICKER_PATHS = [
 //     uMaskScale: { value: 1.0 },
 //   });
 
-//   // START GSAP TIMELINE ONLY AFTER THREE.JS PARTICLES ARE MOUNTED & READY
 //   useEffect(() => {
 //     if (!isParticlesReady || !svgMapRef.current) return;
 
@@ -603,25 +613,18 @@ const STICKER_PATHS = [
 //     return () => {
 //       tl.kill();
 //     };
-//   }, [isParticlesReady]);
-
-//   // Fade-in opacity for vector overlay as particles morph into vote.png (progress 1.25 -> 1.85)
-//   const voteOverlayOpacity = Math.max(
-//     0,
-//     Math.min(1, (currentProgress - 1.25) / 0.6),
-//   );
+//   }, [isParticlesReady, onComplete]);
 
 //   return (
 //     <div
 //       ref={containerRef}
 //       className={`relative w-full h-full min-h-0 bg-[#222f5f] overflow-hidden flex items-center justify-center ${className}`}
 //     >
-//       {/* RESPONSIVE STAGE CONTAINER (aspect-[480/800]) */}
 //       <div className="relative w-full h-full max-w-full max-h-full aspect-480/800 flex items-center justify-center overflow-hidden">
 //         {/* THREE.JS CANVAS */}
 //         <div className="absolute inset-0 z-0">
 //           <Canvas
-//             dpr={[1, 2]} // Prevents high-DPI (3x/4x) mobile GPU memory crashes
+//             dpr={[1, 2]}
 //             gl={{ powerPreference: "high-performance", antialias: false }}
 //             camera={{ position: [0, 0, 10], fov: 50 }}
 //           >
@@ -633,44 +636,6 @@ const STICKER_PATHS = [
 //             />
 //           </Canvas>
 //         </div>
-
-//         {/* --- TRANSPARENT VECTOR BALLOT & STICKER OVERLAY --- */}
-//         {/* <div
-//           style={{
-//             position: "absolute",
-//             left: "40.2%",
-//             top: "48.5%",
-//             width: "22.8%",
-//             aspectRatio: "414.05 / 324.11",
-//             transform: `scale(${0.88 + voteOverlayOpacity * 0.12})`,
-//             opacity: voteOverlayOpacity,
-//             transition: "opacity 0.15s ease-out, transform 0.15s ease-out",
-//             pointerEvents: "none",
-//             zIndex: 25,
-//             background: "transparent",
-//             filter: "drop-shadow(0px 4px 12px rgba(0, 0, 0, 0.45))",
-//           }}
-//         >
-//           <svg
-//             xmlns="http://www.w3.org/2000/svg"
-//             viewBox="0 0 414.05 324.11"
-//             width="100%"
-//             height="100%"
-//             style={{ background: "transparent" }}
-//           >
-//             <g>
-//               {BALLOT_PATHS.map((d, i) => (
-//                 <path key={`ballot-${i}`} fill="#ffffff" d={d} />
-//               ))}
-//             </g>
-
-//             <g>
-//               {STICKER_PATHS.map((d, i) => (
-//                 <path key={`sticker-${i}`} fill="#ffffff" d={d} />
-//               ))}
-//             </g>
-//           </svg>
-//         </div> */}
 
 //         {/* SVG USA MAP LINE-DRAW OVERLAY */}
 //         <svg
@@ -699,17 +664,16 @@ const STICKER_PATHS = [
 //   );
 // }
 
-// ------------------------------------------------------
+// ----------------------------------------
 
 const SAMPLE_STEP = 1;
 const EXPAND_SCALE = 6.5;
 
 const DEFAULT_CROWD_SVG = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 1000" width="600" height="1000"><rect width="600" height="1000" fill="%23131b3e"/><circle cx="300" cy="120" r="3" fill="%23fff"/><circle cx="150" cy="80" r="2" fill="%23fff"/><circle cx="450" cy="180" r="2.5" fill="%23fff"/><circle cx="90" cy="220" r="2" fill="%23fff"/><circle cx="520" cy="100" r="3" fill="%23fff"/><circle cx="300" cy="820" r="50" stroke="%23fff" stroke-width="4" fill="none"/><path d="M 170 980 Q 200 880 250 880 L 350 880 Q 400 880 430 980" stroke="%23fff" stroke-width="4" fill="none"/><path d="M 250 880 L 300 930 L 350 880 M 300 930 L 300 1000" stroke="%23fff" stroke-width="3" fill="none"/></svg>`;
 
-// High-Precision 2048x2048 Canvas Texture for zero border bleeding
 function createMapMaskTexture(): THREE.CanvasTexture {
   const canvas = document.createElement("canvas");
-  canvas.width = 2048; // Quadrupled resolution for crisp edges
+  canvas.width = 2048;
   canvas.height = 2048;
   const ctx = canvas.getContext("2d");
 
@@ -865,7 +829,6 @@ async function prepareParticleData(
 
     delays[i] = Math.random() * 1.5;
 
-    // Types: 0 = Circle, 1 = Horseshoe Arc, 2 = Ring Arc, 3 = Pill/Rect
     types[i] = Math.floor(Math.random() * 4);
     rotations[i] = Math.random() * Math.PI * 2;
   }
@@ -1066,22 +1029,18 @@ function ParticlesMesh({
           varying float vAlpha;
 
           void main() {
-            // 1. Calculate map mask texture UV
             vec2 maskUv = (vScreenUv - vec2(0.5)) / uMaskScale + vec2(0.5);
 
-            // Discard particles out of texture bounds
             if (maskUv.x < 0.0 || maskUv.x > 1.0 || maskUv.y < 0.0 || maskUv.y > 1.0) {
               discard;
             }
 
             float maskVal = texture2D(uMaskTexture, maskUv).r;
 
-            // Discard outside mask
             if (maskVal < 0.15) {
               discard;
             }
 
-            // Smoothly fade border particles so particle radius never spills outside
             float borderFade = smoothstep(0.15, 0.85, maskVal);
 
             vec2 coord = gl_PointCoord - vec2(0.5);
@@ -1090,25 +1049,20 @@ function ParticlesMesh({
 
             float shapeAlpha = 1.0;
 
-            // Render shapes when uDotMode < 0.99
             if (uDotMode < 0.99) {
               float angle = atan(coord.y, coord.x) + vRotation;
 
               if (vType < 0.5) {
-                // Type 0: Solid Circle
                 shapeAlpha = smoothstep(0.5, 0.38, dist);
               } else if (vType < 1.5) {
-                // Type 1: Horseshoe Arc
                 float ring = smoothstep(0.5, 0.42, dist) - smoothstep(0.32, 0.24, dist);
                 float arc = step(0.0, sin(angle));
                 shapeAlpha = ring * mix(arc, 1.0, 0.25);
               } else if (vType < 2.5) {
-                // Type 2: Crescent Ring Arc
-                float ring = smoothstep(0.5, 0.44, dist) - smoothstep(0.38, 0.30, dist);
+                float ring = smoothstep(0.5, 0.44, dist) - smoothstep(0.30, 0.30, dist);
                 float arc = step(-0.4, sin(angle * 1.5));
                 shapeAlpha = ring * arc;
               } else {
-                // Type 3: Rotated Rounded Pill/Rect
                 vec2 rotCoord = vec2(
                   coord.x * cos(vRotation) - coord.y * sin(vRotation),
                   coord.x * sin(vRotation) + coord.y * cos(vRotation)
@@ -1160,6 +1114,7 @@ export default function IntroAnimation({
     const mapPaths =
       svgMapRef.current.querySelectorAll<SVGPathElement>(".map-outline");
 
+    // 1. Prepare dash offsets
     mapPaths.forEach((path) => {
       try {
         const length = path.getTotalLength() || 2000;
@@ -1175,6 +1130,10 @@ export default function IntroAnimation({
       }
     });
 
+    // 2. Unhide SVG overlay now that path dashoffsets are prepared
+    gsap.set(svgMapRef.current, { opacity: 1 });
+
+    // 3. Start GSAP timeline
     const tl = gsap.timeline({
       onUpdate: () => {
         setCurrentProgress(animRef.current.uProgress.value);
@@ -1274,12 +1233,12 @@ export default function IntroAnimation({
           </Canvas>
         </div>
 
-        {/* SVG USA MAP LINE-DRAW OVERLAY */}
+        {/* SVG USA MAP LINE-DRAW OVERLAY (Starts with opacity: 0 to prevent flashing) */}
         <svg
           ref={svgMapRef}
           viewBox="0 -1100 2300 4500"
           preserveAspectRatio="xMidYMid slice"
-          className="absolute inset-0 w-full h-full pointer-events-none z-30 px-2"
+          className="absolute inset-0 w-full h-full pointer-events-none z-30 px-2 opacity-0"
           xmlns="http://www.w3.org/2000/svg"
         >
           <g
