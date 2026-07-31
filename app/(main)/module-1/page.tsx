@@ -351,7 +351,7 @@ const Module1 = () => {
   return (
     <div
       ref={questionContainerRef}
-      className="shadow-[inset_0px_0px_2px_rgba(0,0,0,0.2)] border border-neutral-300 px-10 text-brand-blue h-161.25 w-full py-8 flex flex-col justify-center overflow-hidden"
+      className="shadow-[inset_0px_0px_2px_rgba(0,0,0,0.2)] border border-neutral-300 px-10 text-brand-blue h-161.25 w-full py-8 flex flex-col justify-center overflow-hidden bg-white select-none"
     >
       <div
         ref={questionInnerContainerRef}
