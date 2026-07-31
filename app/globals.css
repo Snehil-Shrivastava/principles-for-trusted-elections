@@ -31,3 +31,29 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.text-group {
+  /* Ensures scaling happens around the center of each word */
+  /* transform-box: fill-box; */
+  transform-origin: center center;
+}
+
+.layout-2lines #word-questions {
+  transform: translate(-80px, -80px) scale(0.7);
+}
+
+.layout-2lines #word-raised {
+  transform: translate(550px, -85px) scale(0.45);
+}
+
+.layout-2lines #word-over {
+  transform: translate(900px, -140px) scale(0.4);
+}
+
+.layout-2lines #word-absentee {
+  transform: translate(-220px, -450px) scale(0.9);
+}
+
+.layout-2lines #word-ballots {
+  transform: translate(480px, -485px) scale(0.8);
+}
