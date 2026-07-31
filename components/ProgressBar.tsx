@@ -169,6 +169,17 @@ const ProgressBar = ({
   const clampedProgress = Math.max(0, Math.min(100, progress));
   const clipWidth = (clampedProgress / 100) * BAR_FULL_WIDTH;
 
+  // The hand-drawn hatch artwork's own bounding box (measured directly from
+  // its path data) is x: 623 -> 1058, i.e. only 435 units wide. That's
+  // narrower than the bar (647 wide) and starts to the left of the bar's
+  // left edge — which is why it overflowed left and ran out of ink before
+  // reaching the right side. We remap its bounding box onto the bar's
+  // bounding box so it stretches to fill exactly, no matter the clip width.
+  const HATCH_SRC_MIN_X = 623;
+  const HATCH_SRC_MAX_X = 1058;
+  const hatchScaleX = BAR_FULL_WIDTH / (HATCH_SRC_MAX_X - HATCH_SRC_MIN_X);
+  const hatchTranslateX = BAR_START_X - hatchScaleX * HATCH_SRC_MIN_X;
+
   // SVG ids must be unique in the DOM. If this component is ever mounted
   // more than once on the same page, a hardcoded id="clippath" collides
   // across instances and clip-path: url(#clippath) can fail to resolve,
@@ -216,7 +227,7 @@ const ProgressBar = ({
         </clipPath>
       </defs>
       <g className={`cls-4-${uid}`}>
-        <g>
+        <g transform={`matrix(${hatchScaleX}, 0, 0, 1, ${hatchTranslateX}, 0)`}>
           <path
             className={`cls-2-${uid}`}
             d="M737.89,573.53c25.3-19.46,50.62-38.89,75.9-58.38-1.71.14-3.41.27-5.12.39-15.62,11.25-31.11,22.61-46.55,34.02-18.01,13.31-34.96,28-53.2,40.92-.04,2.03,1.85,1.14,2.76,1.69-.07-.09-.13-.17-.2-.25,8.14-4.44,15.18-10.53,23.05-15.39,1.12-1,2.17-2.08,3.36-3"

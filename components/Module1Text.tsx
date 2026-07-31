@@ -7,7 +7,13 @@ import { useRef } from "react";
 
 gsap.registerPlugin(useGSAP, Flip);
 
-const Module1Text = ({ className }: { className?: string }) => {
+const Module1Text = ({
+  className,
+  onComplete,
+}: {
+  className?: string;
+  onComplete?: () => void;
+}) => {
   const svgContainerRef = useRef(null);
 
   useGSAP(
@@ -37,6 +43,11 @@ const Module1Text = ({ className }: { className?: string }) => {
           ease: "power3.inOut",
           scale: true,
           stagger: 0.08, // subtle delay between each word for fluid motion
+          onComplete: () => {
+            gsap.delayedCall(1, () => {
+              onComplete?.();
+            });
+          },
         });
 
         tl.add(flipTween);
