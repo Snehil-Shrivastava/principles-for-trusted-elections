@@ -4,7 +4,7 @@ import NavBuildingBlank from "@/components/NavBuildingBlank";
 import ProgressBar from "@/components/ProgressBar";
 import ProgressFill from "@/components/ProgressFill";
 
-const MOdule1Layout = ({ children }: { children?: string }) => {
+const MOdule1Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="relative w-full h-full">
       <GridSVG />
