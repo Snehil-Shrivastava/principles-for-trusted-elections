@@ -35,7 +35,8 @@ const Main = () => {
       {screen === "intro" ? (
         <IntroAnimation onComplete={handleIntroComplete} />
       ) : screen === "blueprint" ? (
-        <ArtboardAnimation onComplete={handleBlueprintComplete} />
+        // <ArtboardAnimation onComplete={handleBlueprintComplete} />
+        <ArtboardAnimation />
       ) : (
         <IntroQuestion />
       )}

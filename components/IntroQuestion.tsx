@@ -249,7 +249,7 @@ export default function IntroQuestion() {
   return (
     <div
       ref={containerRef}
-      className="w-full h-full flex flex-col justify-between items-center gap-y-10 select-none"
+      className="w-full h-full flex flex-col justify-between items-center gap-y-10 select-none bg-white"
     >
       {/* --- NEWSPAPER + SPEECH BUBBLE AREA --- */}
       <div

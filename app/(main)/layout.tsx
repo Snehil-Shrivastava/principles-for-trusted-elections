@@ -9,7 +9,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
         <Image src={trustedElectionsLogo} alt="" className="mx-auto" />
       </div>
       <Banner />
-      <div className="h-4/5 max-h-156.5 w-9/10 mx-auto flex-1 mt-5">
+      <div className="h-4/5 max-h-156.5 w-9/10 mx-auto flex-1 mt-5 bg-brand-blue">
         {children}
       </div>
     </div>

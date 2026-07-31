@@ -1399,11 +1399,13 @@ export default function BuildingSVG({
         height="25.32"
       />
       <path
-        className="cls-5 door-window-semicircle"
+        className="semicircle"
         d="M441.76,366.09c0-4.92,4-8.92,8.92-8.92s8.93,4,8.93,8.92h-17.85Z"
+        fill="#222f5f"
+        stroke="#fff"
       />
       <path
-        className="cls-3"
+        className="cls-3 door-inner-frame"
         d="M487.37,524.99h-73.96v-132.43h73.96v132.43ZM416.07,522.7h68.82v-127.84h-68.82v127.84Z"
       />
       <path
