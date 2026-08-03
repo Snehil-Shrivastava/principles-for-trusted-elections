@@ -4,7 +4,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { useRef } from "react";
 
-const NCMap = () => {
+const NCMap = ({ onComplete }: { onComplete?: () => void }) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useGSAP(
@@ -17,7 +17,13 @@ const NCMap = () => {
         transformOrigin: "bottom center", // Bars grow upwards from baseline
       });
 
-      const tl = gsap.timeline();
+      const tl = gsap.timeline({
+        onComplete: () => {
+          gsap.delayedCall(1.5, () => {
+            onComplete?.();
+          });
+        },
+      });
 
       // 1. Fade the container in
       tl.from(containerRef.current, {
