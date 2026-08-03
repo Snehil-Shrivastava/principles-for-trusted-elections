@@ -13,6 +13,10 @@ const NCMap = () => {
         transformOrigin: "bottom center",
       });
 
+      gsap.set(".bar", {
+        transformOrigin: "bottom center", // Bars grow upwards from baseline
+      });
+
       const tl = gsap.timeline();
 
       // 1. Fade the container in
@@ -55,10 +59,39 @@ const NCMap = () => {
         .to(".map-text", {
           opacity: 1,
           duration: 0.8,
+        })
+        //------------------
+        .from(".y-axis-line", {
+          scaleX: 0, // Note: If the rotated rect scales thickness instead of length, change to scaleX
+          duration: 0.6,
+          ease: "power2.out",
+        })
+
+        // B. Draw X-Axis Line from Left to Right
+        .from(".x-axis-line", {
+          scaleX: 0,
+          duration: 0.6,
+          ease: "power2.out",
+        })
+
+        // C. Fade in Vertical Grid Lines & Text Labels together
+        .from([".vertical-line", ".bar-chart-text"], {
+          opacity: 0,
+          duration: 0.6,
+          ease: "power2.out",
+        })
+
+        // D. Bars grow from the bottom up (staggered left-to-right)
+        .from(".bar", {
+          scaleY: 0,
+          duration: 0.8,
+          ease: "back.out(1.2)", // Subtle bounce as bars reach full height
+          stagger: 0.08, // Grows each bar one after another
         });
     },
     { scope: containerRef },
   );
+
   return (
     <div ref={containerRef} className="w-full h-full bg-transparent">
       <svg
@@ -75,9 +108,13 @@ const NCMap = () => {
         // opacity: .75;
       }
 
-    //   .cls-2.ncmap {
-    //     fill: #2b2b35;
-    //   }
+      .cls-2.ncmap {
+        fill: #2b2b35;
+      }
+
+      .cls-2.bladen-county-bar {
+      fill: #7676ff
+      }
 
       .cls-3, .cls-4 {
         fill: #fff;
@@ -129,7 +166,31 @@ const NCMap = () => {
 
       .cls-15 {
         clip-path: url(#clippath);
-      }`}
+      }
+            .cls-16 {
+        clip-path: url(#clippath-2);
+      }
+
+      .cls-17 {
+        fill: #f92555;
+      }
+
+      // .cls-7 {
+      //   fill: #1572bb;
+      // }
+
+      .cls-18 {
+        clip-path: url(#clippath);
+      }
+
+      .cls-19 {
+        opacity: .5;
+      }
+
+      .cls-20 {
+        fill: #e6e6e6;
+      }  
+      `}
           </style>
           <clipPath id="clippath">
             <rect
@@ -241,6 +302,185 @@ const NCMap = () => {
           </text>
           <text x="600" y="1045" fill="white" fontSize="36" fontWeight="500">
             North Carolina.
+          </text>
+        </g>
+        <g
+          xmlns="http://www.w3.org/2000/svg"
+          className="relative translate-y-50 scale-85 origin-center"
+        >
+          <rect
+            className="cls-20 x-axis-line"
+            x="231.94"
+            y="1695.36"
+            width="652.16"
+            height="3.65"
+          />
+          <rect
+            className="cls-20 y-axis-line"
+            x="-9.92"
+            y="1444.85"
+            width="490.7"
+            height="6.98"
+            transform="translate(-1212.9114 1683.7707) rotate(-90)"
+          />
+          <g className="cls-19 vertical-line">
+            <rect
+              className="cls-20"
+              x="73.3"
+              y="1447.42"
+              width="490.7"
+              height="1.85"
+              transform="translate(-1129.6935 1766.9885) rotate(-90)"
+            />
+          </g>
+          <g className="cls-19 vertical-line">
+            <rect
+              className="cls-20"
+              x="172.5"
+              y="1447.42"
+              width="490.7"
+              height="1.85"
+              transform="translate(-1030.4922 1866.1898) rotate(-90)"
+            />
+          </g>
+          <g className="cls-19 vertical-line">
+            <rect
+              className="cls-20"
+              x="271.7"
+              y="1447.42"
+              width="490.7"
+              height="1.85"
+              transform="translate(-931.2908 1965.3912) rotate(-90)"
+            />
+          </g>
+          <rect
+            className="cls-20 vertical-line"
+            x="370.9"
+            y="1447.42"
+            width="490.7"
+            height="1.85"
+            transform="translate(-832.0895 2064.5925) rotate(-90)"
+          />
+          <g className="cls-19 vertical-line">
+            <rect
+              className="cls-20"
+              x="470.1"
+              y="1447.42"
+              width="490.7"
+              height="1.85"
+              transform="translate(-732.8881 2163.7939) rotate(-90)"
+            />
+          </g>
+          <g className="cls-19 vertical-line">
+            <rect
+              className="cls-20"
+              x="569.3"
+              y="1447.42"
+              width="490.7"
+              height="1.85"
+              transform="translate(-633.6868 2262.9952) rotate(-90)"
+            />
+          </g>
+          <g className="bar">
+            <rect
+              className="cls-17"
+              x="298.19"
+              y="1523.26"
+              width="41.14"
+              height="170.43"
+            />
+            <path
+              className="cls-4"
+              d="M340.17,1694.53h-42.81v-172.1h42.81v172.1ZM299.03,1692.86h39.48v-168.77h-39.48v168.77Z"
+            />
+          </g>
+          <g className="bar">
+            <rect
+              className="cls-17"
+              x="397.28"
+              y="1621.82"
+              width="41.14"
+              height="71.87"
+            />
+            <path
+              className="cls-4"
+              d="M439.25,1694.53h-42.81v-73.54h42.81v73.54ZM398.11,1692.86h39.48v-70.21h-39.48v70.21Z"
+            />
+          </g>
+          <g className="bar">
+            <rect
+              className="cls-17"
+              x="496.36"
+              y="1572.54"
+              width="41.14"
+              height="121.15"
+            />
+            <path
+              className="cls-4"
+              d="M538.34,1694.53h-42.81v-122.82h42.81v122.82ZM497.19,1692.86h39.48v-119.49h-39.48v119.49Z"
+            />
+          </g>
+          <g className="bar">
+            <rect
+              className="cls-2 bladen-county-bar"
+              x="595.45"
+              y="1224.63"
+              width="41.14"
+              height="469.06"
+            />
+            <path
+              className="cls-4"
+              d="M637.21,1694.32h-42.39v-470.31h42.39v470.31ZM596.07,1693.07h39.89v-467.81h-39.89v467.81Z"
+            />
+          </g>
+          <g className="bar">
+            <rect
+              className="cls-17"
+              x="694.53"
+              y="1676.25"
+              width="41.14"
+              height="17.44"
+            />
+            <path
+              className="cls-4"
+              d="M736.5,1694.53h-42.81v-19.11h42.81v19.11ZM695.36,1692.86h39.48v-15.78h-39.48v15.78Z"
+            />
+          </g>
+          <g className="bar">
+            <rect
+              className="cls-17"
+              x="793.61"
+              y="1560.04"
+              width="41.14"
+              height="133.66"
+            />
+            <path
+              className="cls-4"
+              d="M835.59,1694.53h-42.81v-135.32h42.81v135.32ZM794.45,1692.86h39.48v-131.99h-39.48v131.99Z"
+            />
+          </g>
+        </g>
+        <g className="bar-chart-text">
+          <text x="310" y="1820" fill="white" opacity="0.6" fontSize="18">
+            County
+          </text>
+          <text x="400" y="1820" fill="white" opacity="0.6" fontSize="18">
+            County
+          </text>
+          <text x="490" y="1820" fill="white" opacity="0.6" fontSize="18">
+            County
+          </text>
+          <text x="580" y="1820" fill="white" fontSize="18">
+            Bladen
+          </text>
+          <text x="580" y="1840" fill="white" fontSize="18">
+            County
+          </text>
+          <text x="670" y="1820" fill="white" opacity="0.6" fontSize="18">
+            County
+          </text>
+          <text x="755" y="1820" fill="white" opacity="0.6" fontSize="18">
+            County
           </text>
         </g>
       </svg>
