@@ -48,10 +48,6 @@ const GavelSVG = ({ onComplete }: { onComplete?: () => void }) => {
         },
         "<50%", // start fill-in halfway through the draw
       );
-      //   .to('.hammer', {
-      //     transformOrigin: 'bottom right',
-      //     transform: 'rotate'
-      //   })
     },
     { scope: containerRef },
   );

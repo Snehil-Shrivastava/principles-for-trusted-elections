@@ -10,9 +10,14 @@ import GavelSVG from "./GavelSVG";
 import NewElectionSVG from "./NewElectionSVG";
 import Module1BuildingFoundation from "./Module1BuildingFoundation";
 import Module1LastSVG from "./Module1LastSVG";
+import Module1Decision from "./Module1Decision";
+import { useProgress } from "@/app/(main)/module-1/layout";
 
 const Module1Main = () => {
+  const { setProgress } = useProgress();
+
   const [showMap, setShowMap] = useState(false);
+  const [showDecision, setShowDecision] = useState(false);
   const [showCertification, setShowCertification] = useState(false);
   const [showRaisedHand, setShowRaisedHand] = useState(false);
   const [showFileSvg, setShowFileSvg] = useState(false);
@@ -24,6 +29,11 @@ const Module1Main = () => {
 
   const handleMapComplete = () => {
     setShowMap(false); // Unmounts NCMap
+    setShowDecision(true); // Mounts Module1Decision
+  };
+
+  const handleDecisionComplete = () => {
+    setShowDecision(false); // Unmounts Module1Decision
     setShowCertification(true); // Mounts Module1ResultCertification
   };
 
@@ -55,6 +65,8 @@ const Module1Main = () => {
   const handleBuildingFoundationComplete = () => {
     setShowBuildingFoundationSvg(false);
     setShowModule1LastSvg(true);
+
+    setProgress(20);
   };
 
   return (
@@ -72,6 +84,7 @@ const Module1Main = () => {
           />
         )}
       {showMap && <NCMap onComplete={handleMapComplete} />}
+      {showDecision && <Module1Decision onComplete={handleDecisionComplete} />}
       {showCertification && (
         <Module1ResultCertification onComplete={handleCertComplete} />
       )}
