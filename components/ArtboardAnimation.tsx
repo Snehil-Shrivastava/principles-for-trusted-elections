@@ -92,7 +92,7 @@ const ArtboardAnimation = ({ onComplete }: { onComplete?: () => void }) => {
       <GridSVG />
       <BuildingSVG
         className="absolute inset-x-0 top-1/2 -translate-y-1/2"
-        // onComplete={onComplete}
+        onComplete={onComplete}
       />
     </div>
   );
