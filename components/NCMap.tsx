@@ -122,9 +122,9 @@ const NCMap = ({ onComplete }: { onComplete?: () => void }) => {
       fill: #7676ff
       }
 
-      .cls-3, .cls-4 {
-        fill: #fff;
-      }
+      // .cls-3, .cls-4 {
+      //   fill: #fff;
+      // }
 
       .cls-4, .cls-5 {
         fill-rule: evenodd;

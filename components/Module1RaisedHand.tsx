@@ -63,8 +63,8 @@ const Module1RaisedHand = ({ onComplete }: { onComplete?: () => void }) => {
         <defs>
           <style>
             {`
-                    .cls-2 {
-                      fill: "#fff"
+                    .cls-2.raised-hand {
+                      fill: #fff
                     }
                 `}
           </style>
