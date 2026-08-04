@@ -674,6 +674,8 @@ export default function BuildingSVG({
         <polygon
           className="cls-3 beam-top"
           points="462.72 105.4 424.16 105.4 410.51 0 476.38 0 462.72 105.4"
+          stroke="#fff"
+          strokeWidth="2px"
         />
         <path
           className="cls-4"
