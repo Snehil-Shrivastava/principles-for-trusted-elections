@@ -502,7 +502,7 @@ export default function IntroQuestion() {
           className="flex flex-col items-center rounded-full bg-white/10 px-5 pt-2.5 text-brand-blue/70 shadow-sm backdrop-blur-sm"
         >
           <span className="text-[11px] font-semibold uppercase tracking-[0.25em]">
-            Scroll down
+            what will you do?
           </span>
 
           <span className="relative flex h-7 w-7 items-center justify-center">
