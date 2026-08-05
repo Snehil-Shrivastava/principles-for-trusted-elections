@@ -390,17 +390,13 @@ export default function IntroQuestion() {
         )
 
         // ✅ Scroll helper entrance
-        .to(
-          scrollHelperRef.current,
-          {
-            autoAlpha: 1,
-            y: 0,
-            duration: 0.6,
-            ease: "power2.out",
-            onComplete: startScrollHelperAnimation,
-          },
-          "-=0.2",
-        );
+        .to(scrollHelperRef.current, {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.6,
+          ease: "power2.out",
+          onComplete: startScrollHelperAnimation,
+        });
     },
     {
       scope: containerRef,
@@ -461,6 +457,39 @@ export default function IntroQuestion() {
             alt="Newspaper headline"
             className="w-full h-auto object-contain mx-auto"
           />
+          <div className="pointer-events-none absolute inset-x-0 bottom-5 z-50 flex justify-center">
+            <div
+              ref={scrollHelperRef}
+              className="flex flex-col items-center rounded-full bg-white/20 px-5 pt-2.5 text-brand-blue/70 shadow-sm backdrop-blur-md"
+            >
+              <span className="text-[11px] font-semibold uppercase tracking-[0.25em]">
+                what will you do?
+              </span>
+
+              <span className="relative flex h-7 w-7 items-center justify-center">
+                <span
+                  ref={scrollHaloRef}
+                  className="absolute inset-0 rounded-full bg-brand-blue/10"
+                />
+
+                <span ref={scrollArrowRef} className="relative inline-flex">
+                  <svg
+                    className="h-4 w-4"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M12 5v14" />
+                    <path d="m19 12-7 7-7-7" />
+                  </svg>
+                </span>
+              </span>
+            </div>
+          </div>
         </div>
 
         {/* Speech Bubble Overlay */}
@@ -509,11 +538,7 @@ export default function IntroQuestion() {
       </div> */}
 
       {/* ✅ Scroll helper layer */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-50 z-50 flex justify-center">
-        {/* <div
-          ref={scrollHelperRef}
-          className="flex flex-col items-center gap-1.5 rounded-full border border-[#222F5F]/10 bg-white/10 px-5 py-2.5 text-[#222F5F]/70 shadow-lg backdrop-blur-sm"
-        > */}
+      {/* <div className="pointer-events-none absolute inset-x-0 bottom-50 z-50 flex justify-center">
         <div
           ref={scrollHelperRef}
           className="flex flex-col items-center rounded-full bg-white/10 px-5 pt-2.5 text-brand-blue/70 shadow-sm backdrop-blur-sm"
@@ -523,13 +548,11 @@ export default function IntroQuestion() {
           </span>
 
           <span className="relative flex h-7 w-7 items-center justify-center">
-            {/* Pulsing halo */}
             <span
               ref={scrollHaloRef}
               className="absolute inset-0 rounded-full bg-brand-blue/10"
             />
 
-            {/* Animated arrow */}
             <span ref={scrollArrowRef} className="relative inline-flex">
               <svg
                 className="h-4 w-4"
@@ -547,7 +570,7 @@ export default function IntroQuestion() {
             </span>
           </span>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
