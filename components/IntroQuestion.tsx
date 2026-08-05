@@ -447,11 +447,11 @@ export default function IntroQuestion() {
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-full flex flex-col justify-between items-center gap-y-0 select-none bg-white"
+      className="relative w-full h-full flex flex-col justify-between items-center select-none bg-white"
     >
       {/* --- NEWSPAPER + SPEECH BUBBLE AREA --- */}
       <div
-        className="relative w-full flex-1 flex items-center justify-center min-h-0"
+        className="relative w-full flex-1 flex flex-col items-center justify-start min-h-0 gap-y-3"
         style={{ perspective: "1200px" }}
       >
         {/* Newspaper Image */}
@@ -470,10 +470,27 @@ export default function IntroQuestion() {
             Did you see this?
           </span>
         </div>
+        <div ref={buttonsRef} className="w-full flex justify-around gap-x-3">
+          <button
+            onClick={handleIgnore}
+            disabled={isProcessing}
+            className="bg-[#D9394F] hover:opacity-90 active:scale-95 text-white py-3 px-8 rounded-xs text-base tracking-widest uppercase transition-all shadow-md cursor-pointer disabled:opacity-50"
+          >
+            IGNORE IT
+          </button>
+
+          <button
+            onClick={handleOpen}
+            disabled={isProcessing}
+            className="bg-[#222F5F] hover:opacity-90 active:scale-95 text-white py-3 px-8 rounded-xs text-base tracking-widest uppercase transition-all shadow-md cursor-pointer disabled:opacity-50"
+          >
+            OPEN IT
+          </button>
+        </div>
       </div>
 
       {/* --- ACTION BUTTONS AREA --- */}
-      <div ref={buttonsRef} className="w-full flex justify-around gap-x-3">
+      {/* <div ref={buttonsRef} className="w-full flex justify-around gap-x-3">
         <button
           onClick={handleIgnore}
           disabled={isProcessing}
@@ -489,10 +506,10 @@ export default function IntroQuestion() {
         >
           OPEN IT
         </button>
-      </div>
+      </div> */}
 
       {/* ✅ Scroll helper layer */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-35 z-50 flex justify-center">
+      <div className="pointer-events-none absolute inset-x-0 bottom-50 z-50 flex justify-center">
         {/* <div
           ref={scrollHelperRef}
           className="flex flex-col items-center gap-1.5 rounded-full border border-[#222F5F]/10 bg-white/10 px-5 py-2.5 text-[#222F5F]/70 shadow-lg backdrop-blur-sm"
