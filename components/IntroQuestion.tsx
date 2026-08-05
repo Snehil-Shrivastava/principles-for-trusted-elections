@@ -447,7 +447,7 @@ export default function IntroQuestion() {
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-full flex flex-col justify-between items-center gap-y-10 select-none bg-white"
+      className="relative w-full h-full flex flex-col justify-between items-center gap-y-0 select-none bg-white"
     >
       {/* --- NEWSPAPER + SPEECH BUBBLE AREA --- */}
       <div
@@ -492,7 +492,7 @@ export default function IntroQuestion() {
       </div>
 
       {/* ✅ Scroll helper layer */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-40 z-50 flex justify-center">
+      <div className="pointer-events-none absolute inset-x-0 bottom-35 z-50 flex justify-center">
         {/* <div
           ref={scrollHelperRef}
           className="flex flex-col items-center gap-1.5 rounded-full border border-[#222F5F]/10 bg-white/10 px-5 py-2.5 text-[#222F5F]/70 shadow-lg backdrop-blur-sm"
