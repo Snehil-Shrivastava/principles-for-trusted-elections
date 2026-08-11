@@ -1,4 +1,5 @@
 import Module2Screen1 from "../Module2Screen1";
+import Module2Screen10 from "../Module2Screen10";
 import Module2Screen2 from "../Module2Screen2";
 import Module2Screen3 from "../Module2Screen3";
 import Module2Screen4 from "../Module2Screen4";
@@ -6,6 +7,7 @@ import Module2Screen5 from "../Module2Screen5";
 import Module2Screen6 from "../Module2Screen6";
 import Module2Screen7 from "../Module2Screen7";
 import Module2Screen8 from "../Module2Screen8";
+import Module2Screen9 from "../Module2Screen9";
 
 export const module2Screens = [
   Module2Screen1,
@@ -16,4 +18,6 @@ export const module2Screens = [
   Module2Screen6,
   Module2Screen7,
   Module2Screen8,
+  Module2Screen9,
+  Module2Screen10,
 ];

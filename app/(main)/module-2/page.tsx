@@ -7,7 +7,7 @@ import { ScreenNavProvider } from "@/context/ScreenNavContext";
 const Module2Page = () => {
   return (
     <ScreenNavProvider total={module2Screens.length}>
-      <ScreenStage screens={module2Screens} />
+      <ScreenStage screens={module2Screens} hideNavOn={9} />
     </ScreenNavProvider>
   );
 };
