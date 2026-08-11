@@ -96,7 +96,9 @@ export default function BuildingSVG({
       id="Layer_1"
       data-name="Layer 1"
       viewBox="0 0 887.21 605.92"
-      className={className ? className : ""}
+      // viewBox="0 -250 887.21 900"
+      // className={className ? className : ""}
+      className={"absolute inset-x-0 top-1/2 -translate-y-1/2 w-4/5 mx-auto"}
     >
       <defs>
         <style>

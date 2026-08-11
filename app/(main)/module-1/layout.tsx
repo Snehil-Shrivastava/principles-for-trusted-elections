@@ -33,7 +33,7 @@ const MOdule1Layout = ({ children }: { children: React.ReactNode }) => {
             progress={progress}
           />
           {/* <NavBuildingBlank className="absolute top-0 right-0 w-25 pointer-events-none" /> */}
-          <BuildingNav className="absolute top-6 right-4 w-20 pointer-events-none" />
+          <BuildingNav className="absolute top-6 right-4 w-20 pointer-events-none z-99" />
           {children}
         </div>
       </div>
