@@ -101,34 +101,36 @@ const ScreenStage = ({
   const hiddenIndices = Array.isArray(hideNavOn) ? hideNavOn : [hideNavOn];
   const isNavHidden = hiddenIndices.includes(index);
 
-  useGSAP(
-    () => {
-      gsap.fromTo(
-        stageRef.current,
-        { opacity: 0 },
-        { opacity: 1, duration: 0.5, ease: "power2.inOut" },
-      );
-    },
-    { dependencies: [index] },
-  );
+  //   useGSAP(
+  //     () => {
+  //       gsap.fromTo(
+  //         stageRef.current,
+  //         { opacity: 0 },
+  //         { opacity: 1, duration: 0.5, ease: "power2.inOut" },
+  //       );
+  //     },
+  //     { dependencies: [index] },
+  //   );
 
   const handleNext = () => {
     if (isLast) return;
-    gsap.to(stageRef.current, {
-      opacity: 0,
-      duration: 0.25,
-      ease: "power2.inOut",
-      onComplete: next,
-    });
+    // gsap.to(stageRef.current, {
+    //   opacity: 0,
+    //   duration: 0.25,
+    //   ease: "power2.inOut",
+    //   onComplete: next,
+    // });
+    next();
   };
   const handleBack = () => {
     if (isFirst) return;
-    gsap.to(stageRef.current, {
-      opacity: 0,
-      duration: 0.25,
-      ease: "power2.inOut",
-      onComplete: back,
-    });
+    // gsap.to(stageRef.current, {
+    //   opacity: 0,
+    //   duration: 0.25,
+    //   ease: "power2.inOut",
+    //   onComplete: back,
+    // });
+    back();
   };
 
   return (
