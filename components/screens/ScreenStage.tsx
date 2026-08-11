@@ -137,7 +137,7 @@ const ScreenStage = ({
         <CurrentScreen onComplete={handleNext} />
       </div>
       {!isNavHidden && (
-        <div className="flex justify-between py-4 absolute inset-x-0 px-4 select-none z-77777 bottom-10">
+        <div className="flex justify-between py-4 absolute inset-x-0 px-4 select-none z-77777 bottom-5">
           <button
             onClick={handleBack}
             disabled={isFirst}

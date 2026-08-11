@@ -1,6 +1,7 @@
 import Image from "next/image";
 import trustedElectionsLogo from "@/public/principles for trusted elections logo.svg";
 import Banner from "@/components/Banner";
+import { ProgressProvider } from "@/context/ProgressContext";
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -10,7 +11,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
       </div>
       <Banner />
       <div className="h-4/5 max-h-156.5 w-9/10 mx-auto flex-1 mt-5 bg-brand-blue">
-        {children}
+        <ProgressProvider initialProgress={8}>{children}</ProgressProvider>
       </div>
     </div>
   );

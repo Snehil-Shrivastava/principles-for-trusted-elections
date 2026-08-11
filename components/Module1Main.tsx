@@ -11,7 +11,7 @@ import NewElectionSVG from "./NewElectionSVG";
 import Module1BuildingFoundation from "./Module1BuildingFoundation";
 import Module1LastSVG from "./Module1LastSVG";
 import Module1Decision from "./Module1Decision";
-import { useProgress } from "@/app/(main)/module-1/layout";
+import { useProgress } from "@/context/ProgressContext";
 
 const Module1Main = () => {
   const { setProgress } = useProgress();

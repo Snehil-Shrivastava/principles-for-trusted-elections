@@ -25,7 +25,7 @@ const Module1Page = () => {
     //   <IntroTextBlurred />
     // </div>
     <ScreenNavProvider total={module1Screens.length}>
-      <ScreenStage screens={module1Screens} hideNavOn={4} />
+      <ScreenStage screens={module1Screens} hideNavOn={[4, 11]} />
     </ScreenNavProvider>
   );
 };

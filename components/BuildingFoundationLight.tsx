@@ -1,6 +1,6 @@
 import Image from "next/image";
 import buildingFoundationLight from "@/public/building-foundation-light.svg";
-import { useProgress } from "@/app/(main)/module-1/layout";
+import { useProgress } from "@/context/ProgressContext";
 
 const BuildingFoundationLight = () => {
   const { setProgress } = useProgress();

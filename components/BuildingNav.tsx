@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import { useProgress } from "@/app/(main)/module-1/layout";
+import { useProgress } from "@/context/ProgressContext";
 
 export default function BuildingNav({ className }: { className?: string }) {
   const svgRef = useRef<SVGSVGElement>(null);
