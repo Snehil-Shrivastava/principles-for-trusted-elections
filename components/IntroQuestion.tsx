@@ -457,7 +457,7 @@ export default function IntroQuestion() {
             alt="Newspaper headline"
             className="w-full h-auto object-contain mx-auto"
           />
-          <div className="pointer-events-none absolute inset-x-0 bottom-5 z-50 flex justify-center">
+          {/* <div className="pointer-events-none absolute inset-x-0 bottom-5 z-50 flex justify-center">
             <div
               ref={scrollHelperRef}
               className="flex flex-col items-center rounded-full bg-white/20 px-5 pt-2.5 text-brand-blue/70 shadow-sm backdrop-blur-md"
@@ -489,7 +489,7 @@ export default function IntroQuestion() {
                 </span>
               </span>
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* Speech Bubble Overlay */}
