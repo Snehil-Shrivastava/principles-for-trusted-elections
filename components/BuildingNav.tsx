@@ -101,11 +101,23 @@ export default function BuildingNav({ className }: { className?: string }) {
       const doubleEls = svgRef.current.querySelectorAll('[class*="double"]');
 
       const lockEls = svgRef.current.querySelectorAll('[class*="lock"]');
+      const holeEls = svgRef.current.querySelectorAll('[class*="cut-out"]');
 
       const tl = gsap.timeline();
 
       // When progress reaches 20 (Module1BuildingFoundation completed)
-      if (progress >= 40) {
+      if (progress >= 60) {
+        tl.to([...stairEls, ...foundationEls, ...doorEls, ...lockEls], {
+          fill: "#ffffff",
+          duration: 0.8,
+          ease: "power2.out",
+          overwrite: "auto",
+        }).to([...holeEls], {
+          fill: "#222f5f",
+          stroke: "#222f5f",
+          strokeWidth: 5,
+        });
+      } else if (progress >= 40) {
         tl.to([...stairEls, ...foundationEls, ...doorEls], {
           fill: "#ffffff",
           duration: 0.8,
@@ -819,7 +831,7 @@ export default function BuildingNav({ className }: { className?: string }) {
         d="M465.24,448.75h-1.33v-4.12c0-1.96-.39-3.87-1.14-5.66-.73-1.73-1.78-3.29-3.12-4.62-1.34-1.33-2.89-2.38-4.62-3.12-1.8-.76-3.7-1.14-5.66-1.14s-3.87.39-5.66,1.14c-1.73.73-3.29,1.78-4.62,3.12-1.33,1.33-2.38,2.89-3.12,4.62-.76,1.8-1.14,3.7-1.14,5.66v4.12h-1.47c-2.15,0-3.9,1.74-3.9,3.88v22.95c0,2.14,1.75,3.88,3.9,3.88h31.89c2.15,0,3.9-1.74,3.9-3.88v-22.95c0-2.14-1.75-3.88-3.9-3.88M436.24,444.63c0-1.77.35-3.49,1.03-5.11.66-1.56,1.61-2.97,2.81-4.17,1.2-1.2,2.61-2.15,4.17-2.81,1.62-.69,3.34-1.03,5.11-1.03s3.49.35,5.11,1.03c1.56.66,2.97,1.61,4.17,2.81,1.2,1.2,2.15,2.61,2.81,4.17.68,1.62,1.03,3.34,1.03,5.11v4.13h-4.93v-4.13c0-4.52-3.67-8.19-8.19-8.19s-8.19,3.67-8.19,8.19v4.13h-4.93v-4.13ZM456.13,448.76h-13.54v-4.13c0-3.73,3.04-6.77,6.77-6.77s6.77,3.04,6.77,6.77v4.13ZM467.71,475.58c0,1.35-1.11,2.46-2.47,2.46h-31.89c-1.36,0-2.47-1.1-2.47-2.46v-22.95c0-1.35,1.11-2.46,2.47-2.46h1.47s.71,0,.71,0h28.39s1.33,0,1.33,0c1.36,0,2.47,1.1,2.47,2.46v22.95Z"
       />
       <path
-        className="cls-3"
+        className="cls-3 cut-out"
         d="M452.75,463.04c.43-.66.66-1.43.66-2.22,0-2.26-1.85-4.1-4.12-4.1s-4.12,1.84-4.12,4.1c0,.79.23,1.56.66,2.22.32.49.73.9,1.21,1.21l-1.27,7.25h7.03l-1.27-7.25c.48-.31.9-.73,1.21-1.21M450.45,463.23l-.49.23,1.15,6.61h-3.64l1.15-6.61-.49-.23c-.93-.44-1.54-1.39-1.54-2.42,0-1.47,1.21-2.67,2.69-2.67s2.69,1.2,2.69,2.67c0,1.03-.6,1.97-1.54,2.42"
       />
       <path

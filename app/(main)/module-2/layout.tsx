@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 import { useProgress } from "@/context/ProgressContext";
 import GridSVG from "@/components/GridSVG";
 import ProgressBar from "@/components/ProgressBar";
@@ -10,9 +10,6 @@ import { useUIChrome } from "@/context/UIChromeContext";
 const Module2Layout = ({ children }: { children: React.ReactNode }) => {
   const { progress } = useProgress();
   const { isBuildingNavVisible } = useUIChrome();
-  // useEffect(() => {
-  //   setProgress(28);
-  // }, [setProgress]);
   return (
     <div className="relative w-full h-full">
       <GridSVG />

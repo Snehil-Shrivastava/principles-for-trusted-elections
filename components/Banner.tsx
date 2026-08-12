@@ -14,6 +14,9 @@ const bannerContent: Record<string, { title: string; subtitle?: string }> = {
   "/module-2": {
     title: "Non-Violet Campaigns (The Doors)",
   },
+  "/module-3": {
+    title: "Secure Voting (The Vault)",
+  },
 };
 
 export default function Banner() {
@@ -28,7 +31,7 @@ export default function Banner() {
   return (
     <div className="bg-brand-pink text-white text-center py-3">
       <h1
-        className={`font-bold ${pathname === "/module-1" || pathname === "/module-2" ? "text-xl" : "text-2xl"}`}
+        className={`font-bold ${pathname === "/module-1" || pathname === "/module-2" || pathname === "/module-3" ? "text-xl" : "text-2xl"}`}
       >
         {content.title}
       </h1>

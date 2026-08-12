@@ -6,7 +6,7 @@ import { useScreenNav } from "@/context/ScreenNavContext";
 import { useRouter } from "next/navigation";
 
 const Level = () => {
-  const { next, back, isFirst, isLast } = useScreenNav();
+  const { next, back, isFirst } = useScreenNav();
 
   const router = useRouter();
 
