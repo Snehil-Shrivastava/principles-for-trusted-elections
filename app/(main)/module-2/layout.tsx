@@ -5,21 +5,27 @@ import { useProgress } from "@/context/ProgressContext";
 import GridSVG from "@/components/GridSVG";
 import ProgressBar from "@/components/ProgressBar";
 import BuildingNav from "@/components/BuildingNav";
+import { useUIChrome } from "@/context/UIChromeContext";
 
 const Module2Layout = ({ children }: { children: React.ReactNode }) => {
-  const { setProgress, progress } = useProgress();
-  useEffect(() => {
-    setProgress(28);
-  }, [progress]);
+  const { progress } = useProgress();
+  const { isBuildingNavVisible } = useUIChrome();
+  // useEffect(() => {
+  //   setProgress(28);
+  // }, [setProgress]);
   return (
     <div className="relative w-full h-full">
       <GridSVG />
       <div className="absolute inset-0">
-        <ProgressBar
-          className="absolute top-0 left-0 z-10 w-65"
-          progress={progress}
-        />
-        <BuildingNav className="absolute top-6 right-4 w-20 pointer-events-none z-99" />
+        {isBuildingNavVisible && (
+          <ProgressBar
+            className="absolute top-0 left-0 z-10 w-65"
+            progress={progress}
+          />
+        )}
+        {isBuildingNavVisible && (
+          <BuildingNav className="absolute top-6 right-4 w-20 pointer-events-none z-99" />
+        )}
         {children}
       </div>
     </div>

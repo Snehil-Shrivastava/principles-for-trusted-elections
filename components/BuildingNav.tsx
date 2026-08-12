@@ -21,6 +21,10 @@ export default function BuildingNav({ className }: { className?: string }) {
 
       const stairEls = svgRef.current.querySelectorAll('[class*="stair"]');
 
+      const verticalEls = svgRef.current.querySelectorAll(
+        '[class*="vertical"]',
+      );
+
       // 2. Beam elements
       const beamEls = svgRef.current.querySelectorAll('[class*="beam"]');
 
@@ -51,13 +55,24 @@ export default function BuildingNav({ className }: { className?: string }) {
         ...doorEls,
         ...windowEls,
         ...Array.from(beamEls),
-        ...Array.from(lockEls),
       ];
 
       gsap.set(animatedEls, {
         fill: "transparent",
         stroke: "#ffffff",
         strokeWidth: 4,
+      });
+
+      gsap.set([...Array.from(lockEls)], {
+        fill: "transparent",
+        stroke: "#ffffff",
+        strokeWidth: 2,
+      });
+
+      gsap.set([...Array.from(verticalEls)], {
+        stroke: "#ffffff",
+        fill: "#ffffff",
+        strokeWidth: 2,
       });
     },
     { scope: svgRef },
@@ -71,13 +86,68 @@ export default function BuildingNav({ className }: { className?: string }) {
       const foundationEls = svgRef.current.querySelectorAll(
         '[class*="foundation"]',
       );
+      const verticalEls = svgRef.current.querySelectorAll(
+        '[class*="vertical"]',
+      );
+
+      const allDoorEls = Array.from(
+        svgRef.current.querySelectorAll<SVGElement>('[class*="door"]'),
+      );
+      const doorEls = allDoorEls.filter(
+        (el) => !el.classList.value.includes("lock"),
+      );
+
+      const outlineEls = svgRef.current.querySelectorAll('[class*="frame"]');
+      const doubleEls = svgRef.current.querySelectorAll('[class*="double"]');
+
+      const lockEls = svgRef.current.querySelectorAll('[class*="lock"]');
+
+      const tl = gsap.timeline();
 
       // When progress reaches 20 (Module1BuildingFoundation completed)
-      if (progress >= 20) {
-        gsap.to([...stairEls, ...foundationEls], {
+      if (progress >= 40) {
+        tl.to([...stairEls, ...foundationEls, ...doorEls], {
           fill: "#ffffff",
           duration: 0.8,
-          //   stagger: 0.1, // Optional: fills stairs one after another for a nice effect!
+          ease: "power2.out",
+          overwrite: "auto",
+        })
+          .to(
+            [...verticalEls],
+            {
+              stroke: "#222f5f",
+              fill: "#222f5f",
+            },
+            "<",
+          )
+          .to(
+            [...lockEls],
+            {
+              stroke: "#222f5f",
+              fill: "#222f5f",
+            },
+            "<",
+          )
+          .to(
+            [...Array.from(outlineEls)],
+            {
+              stroke: "#222f5f",
+              strokeWidth: 2,
+            },
+            "<",
+          )
+          .to(
+            [...Array.from(doubleEls)],
+            {
+              stroke: "#222f5f",
+              strokeWidth: 9,
+            },
+            "<",
+          );
+      } else if (progress >= 20) {
+        tl.to([...stairEls, ...foundationEls], {
+          fill: "#ffffff",
+          duration: 0.8,
           ease: "power2.out",
           overwrite: "auto",
         });
@@ -116,7 +186,7 @@ export default function BuildingNav({ className }: { className?: string }) {
 
           .cls-2.nav-bulding-stroke,
       .cls-3.beam-top, 
-      .cls-3.door, 
+      .cls-3.container, 
       .cls-3.door-window, 
       .cls-3.door-window-vertical-line, 
       .cls-3.door-inner-frame, 
@@ -168,7 +238,7 @@ export default function BuildingNav({ className }: { className?: string }) {
           points="19.38 248.88 19.33 222.48 205.79 222.81 209.78 237.79 209.52 248.66 19.38 248.88"
         />
         <path
-          className="cls-4 nav-bulding-stroke"
+          className="cls-4 foundation-left"
           d="M204.5,536.17H20.65s-.19-36.18-.19-36.18c-.36-.44-.17-1.15.8-1.15l185.73.78c.94,0,1.18.67,1.12,1.16-.96,2.24-3.4,3.93-3.42,6.93l-.19,28.46Z"
         />
         <path
@@ -196,7 +266,7 @@ export default function BuildingNav({ className }: { className?: string }) {
           d="M247.76,502.51c1.16,0,2.13,2.11,2.48,3.69l-39.32.05c.15-1.13.7-3.77,2.21-3.77l34.64.02Z"
         />
         <rect
-          className="cls-4 nav-bulding-stroke"
+          className="cls-4 foundation-left"
           x="207.63"
           y="508.52"
           width="45.9"
@@ -226,7 +296,7 @@ export default function BuildingNav({ className }: { className?: string }) {
           d="M319.8,502.51c1.16,0,2.13,2.11,2.48,3.69l-39.32.05c.15-1.13.7-3.77,2.21-3.77l34.64.02Z"
         />
         <rect
-          className="cls-4 nav-bulding-stroke"
+          className="cls-4 foundation-left"
           x="279.67"
           y="508.52"
           width="45.9"
@@ -461,7 +531,7 @@ export default function BuildingNav({ className }: { className?: string }) {
           points="867.83 248.88 867.88 222.48 681.42 222.81 677.43 237.79 677.69 248.66 867.83 248.88"
         />
         <path
-          className="cls-4 nav-bulding-stroke"
+          className="cls-4 foundation-right"
           d="M682.7,536.17h183.85s.19-36.18.19-36.18c.36-.44.17-1.15-.8-1.15l-185.73.78c-.94,0-1.18.67-1.12,1.16.96,2.24,3.4,3.93,3.42,6.93l.19,28.46Z"
         />
         <path
@@ -489,7 +559,7 @@ export default function BuildingNav({ className }: { className?: string }) {
           d="M639.45,502.51c-1.16,0-2.13,2.11-2.48,3.69l39.32.05c-.15-1.13-.7-3.77-2.21-3.77l-34.64.02Z"
         />
         <rect
-          className="cls-4 nav-bulding-stroke"
+          className="cls-4 foundation-right"
           x="633.68"
           y="508.52"
           width="45.9"
@@ -519,7 +589,7 @@ export default function BuildingNav({ className }: { className?: string }) {
           d="M567.41,502.51c-1.16,0-2.13,2.11-2.48,3.69l39.32.05c-.15-1.13-.7-3.77-2.21-3.77l-34.64.02Z"
         />
         <rect
-          className="cls-4 nav-bulding-stroke"
+          className="cls-4 foundation-right"
           x="561.64"
           y="508.52"
           width="45.9"
@@ -707,12 +777,12 @@ export default function BuildingNav({ className }: { className?: string }) {
       </g>
       <g className="cls-1">
         <path
-          className="cls-3 door"
+          className="cls-3 container"
           d="M502.43,536.7h-103.49v-164.9h-7.61l.06-.4c.02-.12,1.93-12.21,10.17-24.12,7.6-11.01,22.3-24.13,49.12-24.13s42.06,13.12,49.54,24.13c8.1,11.92,9.74,24.01,9.75,24.13l.05.39h-7.6v164.9Z"
         />
       </g>
       <path
-        className="cls-4 nav-bulding-stroke"
+        className="cls-4 nav-bulding-stroke door"
         d="M502.43,536.7h-103.49v-164.9h-7.61l.06-.4c.02-.12,1.93-12.21,10.17-24.12,7.6-11.01,22.3-24.13,49.12-24.13s42.06,13.12,49.54,24.13c8.1,11.92,9.74,24.01,9.75,24.13l.05.39h-7.6v164.9Z"
       />
       <path
@@ -720,11 +790,11 @@ export default function BuildingNav({ className }: { className?: string }) {
         d="M494.3,366.44h-87.24l.06-.4c.01-.08,1.42-8.49,7.47-16.77,5.59-7.65,16.38-16.76,36.08-16.76s30.9,9.11,36.39,16.76c5.95,8.28,7.16,16.69,7.17,16.77l.05.4Z"
       />
       <path
-        className="cls-4 nav-bulding-stroke"
+        className="cls-4 nav-bulding-stroke frame-outline"
         d="M494.3,366.44h-87.24l.06-.4c.01-.08,1.42-8.49,7.47-16.77,5.59-7.65,16.38-16.76,36.08-16.76s30.9,9.11,36.39,16.76c5.95,8.28,7.16,16.69,7.17,16.77l.05.4Z"
       />
       <rect
-        className="cls-5 door-window-vertical-line"
+        className="cls-5 vertical-line"
         x="450.33"
         y="332.05"
         width=".7"
@@ -737,11 +807,11 @@ export default function BuildingNav({ className }: { className?: string }) {
         stroke="#fff"
       />
       <path
-        className="cls-3 door-inner-frame"
+        className="cls-3 double"
         d="M487.37,524.99h-73.96v-132.43h73.96v132.43ZM416.07,522.7h68.82v-127.84h-68.82v127.84Z"
       />
       <path
-        className="cls-4 nav-bulding-stroke"
+        className="cls-4 door"
         d="M487.37,524.99h-73.96v-132.43h73.96v132.43ZM416.07,522.7h68.82v-127.84h-68.82v127.84Z"
       />
       <path
@@ -753,15 +823,15 @@ export default function BuildingNav({ className }: { className?: string }) {
         d="M452.75,463.04c.43-.66.66-1.43.66-2.22,0-2.26-1.85-4.1-4.12-4.1s-4.12,1.84-4.12,4.1c0,.79.23,1.56.66,2.22.32.49.73.9,1.21,1.21l-1.27,7.25h7.03l-1.27-7.25c.48-.31.9-.73,1.21-1.21M450.45,463.23l-.49.23,1.15,6.61h-3.64l1.15-6.61-.49-.23c-.93-.44-1.54-1.39-1.54-2.42,0-1.47,1.21-2.67,2.69-2.67s2.69,1.2,2.69,2.67c0,1.03-.6,1.97-1.54,2.42"
       />
       <path
-        className="cls-3 door-lock"
+        className="cls-3 lock"
         d="M441.14,444.75c0-4.56,3.71-8.27,8.27-8.27s8.27,3.71,8.27,8.27v4.17h4.98v-4.17c0-1.79-.35-3.52-1.04-5.16-.67-1.58-1.62-3-2.84-4.21-1.22-1.22-2.63-2.17-4.21-2.84-1.64-.69-3.37-1.04-5.16-1.04s-3.53.35-5.16,1.04c-1.58.67-3,1.62-4.21,2.84-1.22,1.22-2.17,2.63-2.84,4.21-.69,1.64-1.04,3.37-1.04,5.16v4.17h4.98v-4.17Z"
       />
       <path
-        className="cls-3 door-lock"
+        className="cls-3 lock"
         d="M465.45,450.36h-1.34s-29.39,0-29.39,0h0s-1.48,0-1.48,0c-1.38,0-2.5,1.11-2.5,2.48v23.18c0,1.37,1.12,2.48,2.5,2.48h32.21c1.38,0,2.5-1.11,2.5-2.48v-23.18c0-1.37-1.12-2.48-2.5-2.48M452.9,471.89h-7.1l1.28-7.32c-.49-.32-.91-.73-1.22-1.23-.43-.67-.66-1.44-.66-2.24,0-2.28,1.86-4.14,4.16-4.14s4.16,1.86,4.16,4.14c0,.8-.23,1.57-.66,2.24-.32.49-.74.91-1.22,1.23l1.28,7.32Z"
       />
       <path
-        className="cls-3 door-lock"
+        className="cls-3 lock"
         d="M467.97,447.97h-1.55v-4.82c0-2.29-.45-4.52-1.34-6.61-.43-1.01-.95-1.97-1.56-2.87-.61-.9-1.3-1.75-2.08-2.52-1.56-1.56-3.38-2.78-5.4-3.64-2.1-.89-4.32-1.34-6.62-1.34s-4.52.45-6.61,1.34c-2.02.85-3.84,2.08-5.4,3.64-1.56,1.56-2.78,3.38-3.64,5.4-.89,2.1-1.34,4.32-1.34,6.61v4.82h-1.71c-2.51,0-4.55,2.03-4.55,4.53v26.8c0,2.5,2.04,4.53,4.55,4.53h37.24c2.51,0,4.55-2.03,4.55-4.53v-26.8c0-2.5-2.04-4.53-4.55-4.53M469.39,476.02c0,2.16-1.77,3.92-3.94,3.92h-32.21c-2.17,0-3.94-1.76-3.94-3.92v-23.18c0-2.16,1.77-3.92,3.94-3.92h1.48v-4.16c0-1.98.39-3.91,1.16-5.72.74-1.75,1.8-3.32,3.15-4.67,1.35-1.35,2.92-2.41,4.67-3.15,1.81-.77,3.74-1.16,5.72-1.16s3.91.39,5.72,1.16c1.75.74,3.32,1.8,4.67,3.15.67.67,1.28,1.4,1.8,2.18.53.78.98,1.61,1.35,2.49.77,1.81,1.16,3.74,1.16,5.72v4.16h1.34c2.17,0,3.94,1.76,3.94,3.92v23.18Z"
       />
     </svg>
