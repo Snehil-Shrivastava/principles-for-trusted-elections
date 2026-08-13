@@ -20,6 +20,12 @@ const bannerContent: Record<string, { title: string; subtitle?: string }> = {
   "/module-4": {
     title: "Responsible Oversight (The Windows)",
   },
+  "/module-5": {
+    title: "Trusted Outcomes (The Keystone)",
+  },
+  "/module-6": {
+    title: "Your Part",
+  },
 };
 
 export default function Banner() {
