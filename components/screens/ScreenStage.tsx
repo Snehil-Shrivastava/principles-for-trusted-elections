@@ -205,7 +205,7 @@ const ScreenStage = ({
 
   return (
     <div className="w-full h-156.5 flex flex-col relative">
-      <div ref={stageRef} className="flex-1">
+      <div ref={stageRef} className="h-full">
         <CurrentScreen onComplete={handleNext} />
       </div>
       {!isNavHidden && (

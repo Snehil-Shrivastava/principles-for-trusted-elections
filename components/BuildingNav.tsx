@@ -103,20 +103,66 @@ export default function BuildingNav({ className }: { className?: string }) {
       const lockEls = svgRef.current.querySelectorAll('[class*="lock"]');
       const holeEls = svgRef.current.querySelectorAll('[class*="cut-out"]');
 
+      const allWindowEls = Array.from(
+        svgRef.current.querySelectorAll<SVGElement>('[class*="window"]'),
+      );
+      const windowEls = allWindowEls.filter(
+        (el) => !el.classList.value.includes("door"),
+      );
+
       const tl = gsap.timeline();
 
       // When progress reaches 20 (Module1BuildingFoundation completed)
-      if (progress >= 60) {
+      if (progress >= 80) {
+        tl.to([...windowEls], {
+          fill: "#fff",
+          stroke: "#222f5f",
+          strokeWidth: 0.5,
+        });
+      } else if (progress >= 60) {
         tl.to([...stairEls, ...foundationEls, ...doorEls, ...lockEls], {
           fill: "#ffffff",
           duration: 0.8,
           ease: "power2.out",
           overwrite: "auto",
-        }).to([...holeEls], {
-          fill: "#222f5f",
-          stroke: "#222f5f",
-          strokeWidth: 5,
-        });
+        })
+          .to(
+            [...verticalEls],
+            {
+              stroke: "#222f5f",
+              fill: "#222f5f",
+            },
+            "<",
+          )
+          .to(
+            [...lockEls],
+            {
+              stroke: "#222f5f",
+              fill: "#222f5f",
+            },
+            "<",
+          )
+          .to(
+            [...Array.from(outlineEls)],
+            {
+              stroke: "#222f5f",
+              strokeWidth: 2,
+            },
+            "<",
+          )
+          .to(
+            [...Array.from(doubleEls)],
+            {
+              stroke: "#222f5f",
+              strokeWidth: 9,
+            },
+            "<",
+          )
+          .to([...holeEls], {
+            fill: "#222f5f",
+            stroke: "#222f5f",
+            strokeWidth: 5,
+          });
       } else if (progress >= 40) {
         tl.to([...stairEls, ...foundationEls, ...doorEls], {
           fill: "#ffffff",

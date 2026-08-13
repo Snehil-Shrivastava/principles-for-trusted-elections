@@ -9,9 +9,9 @@ const Module4Page = () => {
     <ScreenNavProvider total={module4Screens.length}>
       <ScreenStage
         screens={module4Screens}
-        // hideNavOn={[6, 14]}
+        hideNavOn={[4, 11]}
         baseProgress={60}
-        // progressMap={{ 14: 60 }}
+        progressMap={{ 11: 80 }}
       />
     </ScreenNavProvider>
   );

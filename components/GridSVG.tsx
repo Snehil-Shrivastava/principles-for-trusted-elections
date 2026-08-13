@@ -5,6 +5,7 @@ const GridSVG = () => {
       id="Layer_1"
       data-name="Layer 1"
       viewBox="0 0 1080 1920"
+      className="h-156.5"
     >
       <defs>
         <style>
