@@ -7,7 +7,7 @@ const Module5Screen15 = () => {
       <Image
         src={labelBuildingDestroyed}
         alt=""
-        className="relative select-none mx-auto top-50"
+        className="relative select-none mx-auto top-25"
       />
     </div>
   );

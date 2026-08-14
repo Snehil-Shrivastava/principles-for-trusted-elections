@@ -7,7 +7,7 @@ const Module2Screen14 = () => {
       <Image
         src={buildingDoorOpen}
         alt=""
-        className="relative select-none mx-auto top-12"
+        className="relative select-none mx-auto top-25 scale-90"
       />
     </div>
   );

@@ -48,7 +48,7 @@ const pledgeResources = [
   },
 ];
 
-const PledgeResources = () => {
+const PledgeResources = ({ onComplete }: { onComplete?: () => void }) => {
   return (
     <div className="w-full h-full relative">
       <div className="absolute inset-x-0 bg-white z-777 shadow-[inset_0px_0px_2px_rgba(0,0,0,0.2)] border border-neutral-300 px-4 py-6">
@@ -63,9 +63,12 @@ const PledgeResources = () => {
               <span className="text-xs leading-tight font-medium flex-[0.8]">
                 {resourceLimits.text}
               </span>
-              <div className="bg-[#4463AA] px-2 py-1.5 flex items-center justify-center flex-[0.2]">
+              <button
+                onClick={onComplete}
+                className="bg-[#4463AA] px-2 py-1.5 flex items-center justify-center flex-[0.2] cursor-pointer"
+              >
                 <Image src={resourceLimits.icon} alt="" />
-              </div>
+              </button>
             </div>
           ))}
         </div>

@@ -7,7 +7,7 @@ const Module5Screen14 = () => {
       <Image
         src={labelBuilding}
         alt=""
-        className="relative select-none mx-auto top-50"
+        className="relative select-none mx-auto top-0 scale-70"
       />
     </div>
   );
